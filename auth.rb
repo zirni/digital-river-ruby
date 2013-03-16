@@ -2,7 +2,7 @@ require "typhoeus"
 require "concord"
 require "anima"
 require "json"
-require "hash_symbolizer"
+require "active_support/core_ext/hash/keys"
 require "active_support/core_ext/hash/except"
 
 module DigitalRiver
