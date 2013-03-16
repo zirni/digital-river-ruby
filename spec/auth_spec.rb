@@ -1,7 +1,5 @@
 require "spec_helper"
 require "./auth"
-require "active_support/time_with_zone"
-require "awesome_print"
 
 module DigitalRiver
   describe Auth do
@@ -25,8 +23,33 @@ module DigitalRiver
         # ap r.body
         # token.product_search
 
-        r = token.product_search(:companyId => "sennheis", :sku => "504568")
+        Request::Raw.class_eval do
+          include Request::Debug
+        end
+        # r = token.product_search(:companyId => "sennheis", :externalReferenceId => "500797")
+        # r = token.product_search(:externalReferenceId => "500797")
+
+
+        # example by me sku or externalReferenceId search
+        # product: e 602-II, externalReferenceId: 500797
+        r = token.product_search(:externalReferenceId => "500797", :companyId => "sennheis")
         ap r
+
+        url = "https://api.digitalriver.com/v1/shoppers/me/products/245551600"
+        ap token.get(url).body
+        ###
+
+
+        # Digital River example email
+        # r = token.product_search(:externalReferenceId => "95", :companyId => "sennheis")
+        # ap r
+        # r = token.get("https://api.digitalriver.com/v1/shoppers/me/products/248294700")
+        # ap r.body
+        ###
+
+        # https://api.digitalriver.com/v1/shoppers/me/products?externalReferenceId=95&companyId=sennheis
+        # https://api.digitalriver.com/v1/shoppers/me/products?companyId=sennheis&externalReferenceId=500797
+        # puts r.totalResults
         # Product.search(token, :companyId => "sennheis", :sku => "504568")
       end
     end
