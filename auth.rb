@@ -6,6 +6,25 @@ require "active_support/core_ext/hash/keys"
 require "active_support/core_ext/hash/except"
 require "active_support/core_ext/object/to_query"
 require "uri"
+require "ostruct"
+require "active_support/time_with_zone"
+require "awesome_print"
+
+def hashes2ostruct(object)
+  return case object
+  when Hash
+    object = object.clone
+    object.each do |key, value|
+      object[key] = hashes2ostruct(value)
+    end
+    OpenStruct.new(object)
+  when Array
+    object = object.clone
+    object.map! { |i| hashes2ostruct(i) }
+  else
+    object
+  end
+end
 
 module DigitalRiver
   class Response
@@ -27,13 +46,32 @@ module DigitalRiver
   end
 
   class Request
-    class Raw
-      include Concord.new(:url, :options)
-
+    module Debug
       def run
-        response = Typhoeus::Request.new(url, options).run
-        Response.build(response)
+        puts "--- REQUEST #{url} ---"
+        ap options
+        puts "---"
+
+        response = super
+
+        puts "--- RESPONSE ---"
+        ap response.headers
+        puts "---"
+
+        response
       end
+    end
+
+    class Raw
+      module Implementation
+        def run
+          response = Typhoeus::Request.new(url, options).run
+          Response.build(response)
+        end
+      end
+
+      include Implementation
+      include Concord.new(:url, :options)
     end
 
     include Concord.new(:token, :url, :options)
@@ -115,7 +153,8 @@ module DigitalRiver
       def response
         uri = URI.parse(URL)
         uri.query = options.to_query
-        session.get(uri.to_s)
+        res = session.get(uri.to_s).body.fetch("products", [])
+        hashes2ostruct(res)
       end
     end
 
