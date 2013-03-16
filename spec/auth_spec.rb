@@ -21,12 +21,13 @@ module DigitalRiver
         token = auth.token
         url = "https://api.digitalriver.com/v1/shoppers/me/products/248294600"
         # URL = "https://api.digitalriver.com/v1/shoppers/me/products".freeze
-        r = Request.get(token, url)
-        # Request.get(token, url, {})
-        # Request.post(token, url, {})
+        # r = Request.get(token, url)
+        # ap r.body
+        # token.product_search
 
-        ap r.body
-        # p JSON.parse(Request::Products.new(token).get.body)
+        r = token.product_search(:companyId => "sennheis", :sku => "504568")
+        ap r
+        # Product.search(token, :companyId => "sennheis", :sku => "504568")
       end
     end
 

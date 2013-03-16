@@ -4,6 +4,8 @@ require "anima"
 require "json"
 require "active_support/core_ext/hash/keys"
 require "active_support/core_ext/hash/except"
+require "active_support/core_ext/object/to_query"
+require "uri"
 
 module DigitalRiver
   class Response
@@ -69,6 +71,18 @@ module DigitalRiver
       end
 
       include Anima.new(:access_token, :token_type, :expires_in, :refresh_token, :scope)
+
+      def get(*args)
+        Request.get(self, *args)
+      end
+
+      def post(*args)
+        Request.post(self, *args)
+      end
+
+      def product_search(options = {})
+        Product.search(self, options)
+      end
     end
 
     URL = "https://api.digitalriver.com/oauth20/token".freeze
@@ -86,6 +100,27 @@ module DigitalRiver
                                     :grant_type => password
                                   }).run
       Token.build(response.body)
+    end
+  end
+
+  class Product
+    class Search
+      def self.build(session, options)
+        new(session, options).response
+      end
+
+      URL = "https://api.digitalriver.com/v1/shoppers/me/products".freeze
+      include Concord.new(:session, :options)
+
+      def response
+        uri = URI.parse(URL)
+        uri.query = options.to_query
+        session.get(uri.to_s)
+      end
+    end
+
+    def self.search(session, options = {})
+      Search.build(session, options)
     end
   end
 end
