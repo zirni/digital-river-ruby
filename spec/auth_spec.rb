@@ -20,8 +20,12 @@ module DigitalRiver
         auth = Auth.new("0bfb94e0f04b78941e7d4d8c9dc65cc2", "password")
         token = auth.token
         url = "https://api.digitalriver.com/v1/shoppers/me/products/248294600"
-        r = Request::Product.new(token, url)
-        ap r.get.body
+        # URL = "https://api.digitalriver.com/v1/shoppers/me/products".freeze
+        r = Request.get(token, url)
+        # Request.get(token, url, {})
+        # Request.post(token, url, {})
+
+        ap r.body
         # p JSON.parse(Request::Products.new(token).get.body)
       end
     end
