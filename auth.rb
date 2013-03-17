@@ -143,7 +143,7 @@ module DigitalRiver
       end
 
       def product_search(options = {})
-        Product.search(self, options)
+        ProductResource.search(self, options)
       end
     end
 
@@ -165,50 +165,57 @@ module DigitalRiver
     end
   end
 
+  module Resource
+    include Concord.new(:session)
+
+    module Response
+      def response
+        @response ||= session.get(url)
+      end
+
+      def response!
+        response unless response.errors?
+
+        raise response.error_messages.inspect
+      end
+    end
+  end
+
   class ShopperResource
     def self.build(session, options = {})
       new(session).response
     end
 
     URL = "https://api.digitalriver.com/v1/shoppers/me".freeze
-    include Concord.new(:session)
+    include Resource
+    include Resource::Response
 
-    def response
-      response = session.get(URL)
-
-      if response.errors?
-        raise response.error_messages.inspect
-      else
-        response.body
-      end
+    def url
+      URL
     end
   end
 
-  class Product
+  class ProductResource
+    def self.search(session, options = {})
+      Search.build(session, options)
+    end
+
     class Search
       def self.build(session, options)
         new(session, options).response
       end
 
       URL = "https://api.digitalriver.com/v1/shoppers/me/products".freeze
+
+      include Resource
+      include Resource::Response
       include Concord.new(:session, :options)
 
-      def response
+      def url
         uri = URI.parse(URL)
         uri.query = options.to_query
-        response = session.get(uri.to_s)
-
-        if response.errors?
-          raise response.error_messages.inspect
-        else
-          res = response.body.fetch("products", [])
-          hashes2ostruct(res)
-        end
+        uri.to_s
       end
-    end
-
-    def self.search(session, options = {})
-      Search.build(session, options)
     end
   end
 end
