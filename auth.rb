@@ -165,6 +165,25 @@ module DigitalRiver
     end
   end
 
+  class ShopperResource
+    def self.build(session, options = {})
+      new(session).response
+    end
+
+    URL = "https://api.digitalriver.com/v1/shoppers/me".freeze
+    include Concord.new(:session)
+
+    def response
+      response = session.get(URL)
+
+      if response.errors?
+        raise response.error_messages.inspect
+      else
+        response.body
+      end
+    end
+  end
+
   class Product
     class Search
       def self.build(session, options)
