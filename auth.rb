@@ -54,7 +54,7 @@ module DigitalRiver
       response = if headers["Content-Type"].to_s.include?("application/json")
         Json.build(body, status, headers)
       else
-        new(body, code, headers)
+        new(body, status, headers)
       end
 
       if body["errors"]
@@ -72,13 +72,14 @@ module DigitalRiver
   class Request
     module Debug
       def run
-        puts "--- REQUEST #{url} ---"
+        method = options.fetch(:method, "no method given").upcase
+        puts "--- REQUEST: #{method} #{url} ---"
         ap options
         puts "---"
 
         response = super
 
-        puts "--- RESPONSE ---"
+        puts "--- RESPONSE: #{response.status} ---"
         ap response.headers
         puts "---"
 
@@ -181,8 +182,13 @@ module DigitalRiver
     include Concord.new(:session)
 
     module Response
+
+      def retrieve_response
+        session.get(url)
+      end
+
       def response
-        @response ||= session.get(url)
+        @response ||= retrieve_response
       end
 
       def response!
@@ -194,8 +200,27 @@ module DigitalRiver
   end
 
   class ShopperResource
-    def self.build(session, options = {})
+    def self.build(session)
       new(session)
+    end
+
+    def self.update(session, options)
+      Update.new(session, options)
+    end
+
+    class Update
+      URL = "https://api.digitalriver.com/v1/shoppers/me".freeze
+      include Resource
+      include Resource::Response
+      include Concord.new(:session, :options)
+
+      def url
+        URL
+      end
+
+      def retrieve_response
+        session.post(url, :body => {:shopper => options})
+      end
     end
 
     URL = "https://api.digitalriver.com/v1/shoppers/me".freeze
