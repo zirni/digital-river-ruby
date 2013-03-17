@@ -32,8 +32,8 @@ module DigitalRiver
 
         # example by me sku or externalReferenceId search
         # product: e 602-II, externalReferenceId: 500797
-        r = token.product_search!(:externalReferenceId => "500797", :companyId => "sennheis")
-        ap r.body
+        # r = token.product_search!(:externalReferenceId => "500797", :companyId => "sennheis")
+        # ap r.body
 
         # url = "https://api.digitalriver.com/v1/shoppers/me/products/245551600"
         # r = token.get(url)
@@ -43,7 +43,10 @@ module DigitalRiver
         # example shopper resource
         # r = ShopperResource.build(token)
         # r = token.shopper_resource!
-        # ap r.body
+        r = ShopperResource.update(token, {:currency => "USD", :locale => "en_US"}).response
+        ap r.body
+        r = token.shopper_resource!
+        ap r.body
 
         # ShopperResource.update(token)
 
