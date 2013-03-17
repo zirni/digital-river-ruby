@@ -15,40 +15,30 @@ module DigitalRiver
 
     context "spike" do
       it "retrieves a token" do
+
         auth = Auth.new("0bfb94e0f04b78941e7d4d8c9dc65cc2", "password")
         token = auth.token
-        url = "https://api.digitalriver.com/v1/shoppers/me/products/248294600"
-        # URL = "https://api.digitalriver.com/v1/shoppers/me/products".freeze
-        # r = Request.get(token, url)
-        # ap r.body
-        # token.product_search
 
         Request::Raw.class_eval do
           include Request::Debug
         end
-        # r = token.product_search(:companyId => "sennheis", :externalReferenceId => "500797")
-        # r = token.product_search(:externalReferenceId => "500797")
+        # Example shopper resource
+        r = ShopperResource.update(token, {:currency => "USD", :locale => "en_US"}).response
+        # r = token.shopper_resource!
+        # session = Session.build(token)
 
-
-        # example by me sku or externalReferenceId search
-        # product: e 602-II, externalReferenceId: 500797
         # r = token.product_search!(:externalReferenceId => "500797", :companyId => "sennheis")
-        # ap r.body
+        ###
+
+        # Example by me sku or externalReferenceId search
+        # product: Momentum, externalReferenceId: 505630
+        r = token.product_search(:externalReferenceId => "505630", :companyId => "sennheis")
+        # r = token.product_search(:externalReferenceId => "95",     :companyId => "sennheis")
 
         # url = "https://api.digitalriver.com/v1/shoppers/me/products/245551600"
         # r = token.get(url)
         # ap r
         ###
-
-        # example shopper resource
-        # r = ShopperResource.build(token)
-        # r = token.shopper_resource!
-        r = ShopperResource.update(token, {:currency => "USD", :locale => "en_US"}).response
-        ap r.body
-        r = token.shopper_resource!
-        ap r.body
-
-        # ShopperResource.update(token)
 
         # Digital River example email
         # r = token.product_search(:externalReferenceId => "95", :companyId => "sennheis")
@@ -57,10 +47,34 @@ module DigitalRiver
         # ap r.body
         ###
 
-        # https://api.digitalriver.com/v1/shoppers/me/products?externalReferenceId=95&companyId=sennheis
-        # https://api.digitalriver.com/v1/shoppers/me/products?companyId=sennheis&externalReferenceId=500797
-        # puts r.totalResults
-        # Product.search(token, :companyId => "sennheis", :sku => "504568")
+        # Product search
+        # r = token.product_search
+        # r = token.get("https://api.digitalriver.com/v1/shoppers/me/product-search",
+        #               :params => {:keyword => "momentum"})
+        # r = token.get("https://api.digitalriver.com/v1/shoppers/me/products/257619000")
+        ###
+
+        # Shopping cart
+        # s =<<-EOS
+# <lineItems>
+        #  <lineItem>
+        #         <product><id>23198450</id></product>
+        #         <quantity>1</quantity>
+        #         <offer><id>2345224</id></offer>
+        #  </lineItem>
+        #  <lineItem>
+        #         <product><id>23183800</id></product>
+        #  </lineItem>
+# </lineItems>
+        # EOS
+        # ap Hash.from_xml(s)
+
+        # body = {:lineItems => {:lineItem => [{:product => {:id => 257619000}}]}}.to_json
+        # r = token.post("https://api.digitalriver.com/v1/shoppers/me/carts/active/line-items",
+        #                :body => body,
+        #                :headers => {"Content-Type" => "application/json"})
+        # r = token.get("https://api.digitalriver.com/v1/shoppers/me/carts/active/line-items")
+        ###
       end
     end
 
