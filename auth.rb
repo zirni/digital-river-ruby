@@ -142,8 +142,20 @@ module DigitalRiver
         Request.post(self, *args)
       end
 
+      def shopper_resource
+        ShopperResource.build(self).response
+      end
+
+      def shopper_resource!
+        ShopperResource.build(self).response!
+      end
+
       def product_search(options = {})
-        ProductResource.search(self, options)
+        ProductResource.search(self, options).response
+      end
+
+      def product_search!(options = {})
+        ProductResource.search(self, options).response!
       end
     end
 
@@ -174,7 +186,7 @@ module DigitalRiver
       end
 
       def response!
-        response unless response.errors?
+        return response if !response.errors?
 
         raise response.error_messages.inspect
       end
@@ -183,7 +195,7 @@ module DigitalRiver
 
   class ShopperResource
     def self.build(session, options = {})
-      new(session).response
+      new(session)
     end
 
     URL = "https://api.digitalriver.com/v1/shoppers/me".freeze
@@ -202,7 +214,7 @@ module DigitalRiver
 
     class Search
       def self.build(session, options)
-        new(session, options).response
+        new(session, options)
       end
 
       URL = "https://api.digitalriver.com/v1/shoppers/me/products".freeze
