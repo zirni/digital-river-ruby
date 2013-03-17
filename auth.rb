@@ -5,6 +5,7 @@ require "json"
 require "active_support/core_ext/hash/keys"
 require "active_support/core_ext/hash/except"
 require "active_support/core_ext/object/to_query"
+require "active_support/core_ext/hash/conversions"
 require "uri"
 require "ostruct"
 require "active_support/time_with_zone"
@@ -81,6 +82,7 @@ module DigitalRiver
 
         puts "--- RESPONSE: #{response.status} ---"
         ap response.headers
+        ap response.body
         puts "---"
 
         response
@@ -97,6 +99,11 @@ module DigitalRiver
 
       include Implementation
       include Concord.new(:url, :options)
+
+      # def options
+      #   @options.merge(:verbose => true)
+      # end
+
     end
 
     include Concord.new(:token, :url, :options)
@@ -116,7 +123,10 @@ module DigitalRiver
     end
 
     def options
-      @options.merge(:headers => headers)
+      @options[:headers] = {} if @options[:headers].nil?
+      @options[:headers].merge!(headers)
+
+      @options
     end
 
     def headers
@@ -125,6 +135,10 @@ module DigitalRiver
         "Authorization" => [token.token_type, token.access_token].join(" ")
       }
     end
+  end
+
+  class Session
+    # def 
   end
 
   class Auth
@@ -219,7 +233,8 @@ module DigitalRiver
       end
 
       def retrieve_response
-        session.post(url, :body => {:shopper => options})
+        session.post(url, :body => {:shopper => options}.to_json,
+                          :headers => {'Content-Type' => 'application/json'})
       end
     end
 
@@ -229,6 +244,26 @@ module DigitalRiver
 
     def url
       URL
+    end
+  end
+
+  class LineItemsResource
+    def self.add(session, options = {})
+      Add.build(session, options)
+    end
+
+    class Add
+      URL = "https://api.digitalriver.com/v1/shoppers/me/carts/active/line-items".freeze
+
+      include Resource
+      include Resource::Response
+      include Concord.new(:session, :options)
+
+      def url
+        uri = URI.parse(URL)
+        uri.query = options.to_query
+        uri.to_s
+      end
     end
   end
 
