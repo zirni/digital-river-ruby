@@ -18,6 +18,8 @@ module DigitalRiver
 
         auth = Auth.new("0bfb94e0f04b78941e7d4d8c9dc65cc2", "password")
         token = auth.token
+        session = Session.build(Session::Json.build(token))
+        token = session
 
         Request::Raw.class_eval do
           include Request::Debug
@@ -32,7 +34,7 @@ module DigitalRiver
 
         # Example by me sku or externalReferenceId search
         # product: Momentum, externalReferenceId: 505630
-        r = token.product_search(:externalReferenceId => "505630", :companyId => "sennheis")
+        # r = token.product_search(:externalReferenceId => "505630", :companyId => "sennheis")
         # r = token.product_search(:externalReferenceId => "95",     :companyId => "sennheis")
 
         # url = "https://api.digitalriver.com/v1/shoppers/me/products/245551600"

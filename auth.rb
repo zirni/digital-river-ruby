@@ -131,14 +131,56 @@ module DigitalRiver
 
     def headers
       {
-        "Accept" => "application/json",
         "Authorization" => [token.token_type, token.access_token].join(" ")
       }
     end
   end
 
   class Session
-    # def 
+
+    class Json
+      def self.build(requester)
+        new(requester)
+      end
+      include Concord.new(:requester)
+
+      def get(url, options = {})
+        requester.get(url, options)
+      end
+
+      def post(url, options = {})
+        options[:headers] = {} if options[:headers].nil?
+        options[:headers].reverse_merge!("Content-Type" => "application/json",
+                                         "Accept" => "application/json")
+
+        options[:body] = options[:body].to_json
+        requester.post(url, options)
+      end
+    end
+
+    def self.build(requester)
+      new(requester)
+    end
+
+    include Concord.new(:requester)
+
+    delegate :get, :post, :to => :requester
+
+    def shopper_resource
+      ShopperResource.build(requester).response
+    end
+
+    def shopper_resource!
+      ShopperResource.build(requester).response!
+    end
+
+    def product_search(options = {})
+      ProductResource.search(requester, options).response
+    end
+
+    def product_search!(options = {})
+      ProductResource.search(requester, options).response!
+    end
   end
 
   class Auth
@@ -155,22 +197,6 @@ module DigitalRiver
 
       def post(*args)
         Request.post(self, *args)
-      end
-
-      def shopper_resource
-        ShopperResource.build(self).response
-      end
-
-      def shopper_resource!
-        ShopperResource.build(self).response!
-      end
-
-      def product_search(options = {})
-        ProductResource.search(self, options).response
-      end
-
-      def product_search!(options = {})
-        ProductResource.search(self, options).response!
       end
     end
 
@@ -233,7 +259,7 @@ module DigitalRiver
       end
 
       def retrieve_response
-        session.post(url, :body => {:shopper => options}.to_json,
+        session.post(url, :body => {:shopper => options},
                           :headers => {'Content-Type' => 'application/json'})
       end
     end
