@@ -28,20 +28,44 @@ end
 
 module DigitalRiver
   class Response
-    class Json < self
-      def self.build(response)
-        new(JSON.parse(response.body), response.code, response.headers)
+    class Json
+      def self.build(body, status, headers)
+        Response.new(JSON.parse(body), status, headers)
+      end
+    end
+
+    class Error < self
+      def self.build(body, status, headers)
+        new(body["errors"], status, headers)
+      end
+
+      def errors?
+        true
+      end
+
+      def error_messages
+        body["error"]
       end
     end
 
     include Concord.new(:body, :status, :headers)
 
-    def self.build(response)
-      if response.headers["Content-Type"].to_s.include?("application/json")
-        Json.build(response)
+    def self.build(body, status, headers)
+      response = if headers["Content-Type"].to_s.include?("application/json")
+        Json.build(body, status, headers)
       else
-        new(response.body, response.code, response.headers)
+        new(body, code, headers)
       end
+
+      if body["errors"]
+        response = Error.build(response.body, response.status, response.headers)
+      end
+
+      response
+    end
+
+    def errors?
+      false
     end
   end
 
@@ -66,7 +90,7 @@ module DigitalRiver
       module Implementation
         def run
           response = Typhoeus::Request.new(url, options).run
-          Response.build(response)
+          Response.build(response.body, response.code, response.headers)
         end
       end
 
@@ -153,8 +177,14 @@ module DigitalRiver
       def response
         uri = URI.parse(URL)
         uri.query = options.to_query
-        res = session.get(uri.to_s).body.fetch("products", [])
-        hashes2ostruct(res)
+        response = session.get(uri.to_s)
+
+        if response.errors?
+          raise response.error_messages.inspect
+        else
+          res = response.body.fetch("products", [])
+          hashes2ostruct(res)
+        end
       end
     end
 

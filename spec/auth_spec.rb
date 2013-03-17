@@ -36,7 +36,8 @@ module DigitalRiver
         ap r
 
         url = "https://api.digitalriver.com/v1/shoppers/me/products/245551600"
-        ap token.get(url).body
+        r = token.get(url)
+        ap r
         ###
 
 
