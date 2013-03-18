@@ -1,0 +1,6 @@
+/Gemfile.lock
+/coverage
+/tmp
+/.rbx
+/.bundle
+/vendor
