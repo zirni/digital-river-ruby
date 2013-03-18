@@ -16,19 +16,21 @@ module DigitalRiver
     context "spike" do
       it "retrieves a token" do
 
+        Request::Raw.class_eval do
+          include Request::Debug
+        end
+
         auth = Auth.new("0bfb94e0f04b78941e7d4d8c9dc65cc2", "password")
         token = auth.token
         session = Session.build(
           Session::Json.build(
             Session::Token.build(Session::Requester.new, token)))
 
-        Request::Raw.class_eval do
-          include Request::Debug
-        end
 
         # Test exceptions
         # requester = Session::Token.new(Session::Requester.new, token)
         # requester = Session::Json.build(Session::Requester.new)
+        # requester = Session::Xml.build(Session::Requester.new)
         # requester = session
         # r = requester.get("https://api.digitalriver.com/v1/shoppers/me/produ/")
         # raise r.to_exception
@@ -36,7 +38,8 @@ module DigitalRiver
 
         # Example shopper resource
         # r = ShopperResource.update(requester, {:currency => "USD", :locale => "en_US"}).response
-        # r = token.shopper_resource!
+        # session = Session.build(requester)
+        r = session.shopper_resource!
         # session = Session.build(token)
 
         # r = token.product_search!(:externalReferenceId => "500797", :companyId => "sennheis")

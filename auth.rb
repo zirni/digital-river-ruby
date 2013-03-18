@@ -114,7 +114,7 @@ module DigitalRiver
 
         puts "--- RESPONSE: #{response.status} ---"
         ap response.headers
-        ap response.body
+        ap response.body.inspect
         puts "---"
 
         response
@@ -228,6 +228,41 @@ module DigitalRiver
       end
     end
 
+    class Xml
+      def self.build(requester)
+        new(requester)
+      end
+      include Concord.new(:requester)
+
+      def get(url, options = {})
+        options = prepare_headers(options, headers)
+
+        requester.get(url, options)
+      end
+
+      def post(url, options = {})
+        options = prepare_headers(options, headers)
+
+        options[:body] = options[:body].to_xml
+        requester.post(url, options)
+      end
+
+      private
+
+      def prepare_headers(options, headers)
+        options[:headers] = {} if options[:headers].nil?
+        options[:headers].reverse_merge!(headers)
+        options
+      end
+
+      def headers
+        {
+          "Content-Type" => "application/xml",
+                "Accept" => "application/xml"
+        }
+      end
+    end
+
     def self.build(requester)
       new(requester)
     end
@@ -296,7 +331,7 @@ module DigitalRiver
       def response!
         return response if !response.errors?
 
-        raise response.error_messages.inspect
+        raise response.to_exception
       end
     end
   end
