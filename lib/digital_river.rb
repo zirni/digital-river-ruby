@@ -47,6 +47,8 @@ require "digital_river/session/json"
 require "digital_river/session/xml"
 require "digital_river/session/token"
 require "digital_river/session/requester"
+require "digital_river/shopper_resource"
+require "digital_river/shopper_resource/update"
 
 require "digital_river/auth"
 

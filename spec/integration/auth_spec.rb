@@ -38,7 +38,7 @@ module DigitalRiver
         # Example shopper resource
         # r = ShopperResource.update(session, {:currency => "USD", :locale => "en_US"}).response
         # session = Session.build(requester)
-        # r = session.shopper_resource!
+        r = session.shopper_resource!
         # session = Session.build(token)
 
         # r = session.product_search!(:externalReferenceId => "500797", :companyId => "sennheis")
