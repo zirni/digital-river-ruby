@@ -1,19 +1,4 @@
 module DigitalRiver
-  class BasicError < StandardError
-    def self.build(id, message)
-      case id
-      when "invalid_token"
-        InvalidTokenError
-      when "resource-not-found"
-        ResourceNotFound
-      else
-        BasicError
-      end.new(message)
-    end
-  end
-
-  class InvalidTokenError < BasicError; end;
-  class ResourceNotFound < BasicError; end;
 
   class Response
     class Json

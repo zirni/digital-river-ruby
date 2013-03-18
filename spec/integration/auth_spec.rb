@@ -41,7 +41,7 @@ module DigitalRiver
         # r = session.shopper_resource!
         # session = Session.build(token)
 
-        r = session.product_search!(:externalReferenceId => "500797", :companyId => "sennheis")
+        # r = session.product_search!(:externalReferenceId => "500797", :companyId => "sennheis")
         ###
 
         # Example by me sku or externalReferenceId search
