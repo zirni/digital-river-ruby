@@ -90,7 +90,7 @@ module DigitalRiver
         new(body, status, headers)
       end
 
-      if response.body["errors"]
+      if response.body && response.body["errors"]
         response = Error.build(response.body, response.status, response.headers)
       end
 
@@ -303,27 +303,6 @@ module DigitalRiver
                                     :grant_type => password
                                   })
       Token.build(response.body)
-    end
-  end
-
-  module Resource
-    include Concord.new(:session)
-
-    module Response
-
-      def retrieve_response
-        session.get(url)
-      end
-
-      def response
-        @response ||= retrieve_response
-      end
-
-      def response!
-        return response if !response.errors?
-
-        raise response.to_exception
-      end
     end
   end
 
