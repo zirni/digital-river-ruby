@@ -42,6 +42,11 @@ require "digital_river/response"
 require "digital_river/response/json"
 require "digital_river/response/xml"
 require "digital_river/response/error"
+require "digital_river/session"
+require "digital_river/session/json"
+require "digital_river/session/xml"
+require "digital_river/session/token"
+require "digital_river/session/requester"
 
 require "digital_river/auth"
 
