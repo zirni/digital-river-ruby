@@ -106,37 +106,65 @@ module DigitalRiver
 
     end
 
-    include Concord.new(:token, :url, :options)
+    include Concord.new(:url, :options)
 
-    def self.get(token, url, options = {})
+    def self.get(url, options = {})
       options.merge!(:method => :get)
-      new(token, url, options).run
+      new(url, options).run
     end
 
-    def self.post(token, url, options = {})
+    def self.post(url, options = {})
       options.merge!(:method => :post)
-      new(token, url, options).run
+      new(url, options).run
     end
 
     def run
       Raw.new(url, options).run
     end
-
-    def options
-      @options[:headers] = {} if @options[:headers].nil?
-      @options[:headers].merge!(headers)
-
-      @options
-    end
-
-    def headers
-      {
-        "Authorization" => [token.token_type, token.access_token].join(" ")
-      }
-    end
   end
 
   class Session
+    class Requester
+
+      def get(*args)
+        Request.get(*args)
+      end
+
+      def post(*args)
+        Request.post(*args)
+      end
+    end
+
+    class Token
+      def self.build(requester, token)
+        new(requester, token)
+      end
+      include Concord.new(:requester, :token)
+
+      def get(url, options = {})
+        options = prepare_headers(options, headers)
+        requester.get(url, options)
+      end
+
+      def post(url, options = {})
+        options = prepare_headers(options, headers)
+        requester.post(url, options)
+      end
+
+      private
+
+      def prepare_headers(options, headers)
+        options[:headers] = {} if options[:headers].nil?
+        options[:headers].reverse_merge!(headers)
+        options
+      end
+
+      def headers
+        {
+          "Authorization" => [token.token_type, token.access_token].join(" ")
+        }
+      end
+    end
 
     class Json
       def self.build(requester)
@@ -145,16 +173,31 @@ module DigitalRiver
       include Concord.new(:requester)
 
       def get(url, options = {})
+        options = prepare_headers(options, headers)
+
         requester.get(url, options)
       end
 
       def post(url, options = {})
-        options[:headers] = {} if options[:headers].nil?
-        options[:headers].reverse_merge!("Content-Type" => "application/json",
-                                         "Accept" => "application/json")
+        options = prepare_headers(options, headers)
 
         options[:body] = options[:body].to_json
         requester.post(url, options)
+      end
+
+      private
+
+      def prepare_headers(options, headers)
+        options[:headers] = {} if options[:headers].nil?
+        options[:headers].reverse_merge!(headers)
+        options
+      end
+
+      def headers
+        {
+          "Content-Type" => "application/json",
+                "Accept" => "application/json"
+        }
       end
     end
 
@@ -191,13 +234,6 @@ module DigitalRiver
 
       include Anima.new(:access_token, :token_type, :expires_in, :refresh_token, :scope)
 
-      def get(*args)
-        Request.get(self, *args)
-      end
-
-      def post(*args)
-        Request.post(self, *args)
-      end
     end
 
     URL = "https://api.digitalriver.com/oauth20/token".freeze

@@ -18,8 +18,11 @@ module DigitalRiver
 
         auth = Auth.new("0bfb94e0f04b78941e7d4d8c9dc65cc2", "password")
         token = auth.token
-        session = Session.build(Session::Json.build(token))
+        session = Session.build(
+          Session::Json.build(
+            Session::Token.build(Session::Requester.new, token)))
         token = session
+        # raise token.requester.class.inspect
 
         Request::Raw.class_eval do
           include Request::Debug
@@ -71,10 +74,11 @@ module DigitalRiver
         # EOS
         # ap Hash.from_xml(s)
 
-        # body = {:lineItems => {:lineItem => [{:product => {:id => 257619000}}]}}.to_json
-        # r = token.post("https://api.digitalriver.com/v1/shoppers/me/carts/active/line-items",
-        #                :body => body,
-        #                :headers => {"Content-Type" => "application/json"})
+        body = {:lineItems => {:lineItem => [{:product => {:id => 257619000}}]}}
+        token.post("https://api.digitalriver.com/v1/shoppers/me/carts/active/line-items",
+                       :body => body)
+
+        # token.get("https://api.digitalriver.com/v1/shoppers/me/carts/active/web-checkout")
         # r = token.get("https://api.digitalriver.com/v1/shoppers/me/carts/active/line-items")
         ###
       end
