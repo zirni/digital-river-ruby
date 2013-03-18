@@ -1,53 +1,5 @@
 module DigitalRiver
 
-  class Request
-    module Debug
-      def run
-        method = options.fetch(:method, "no method given").upcase
-        puts "--- REQUEST: #{method} #{url} ---"
-        ap options
-        puts "---"
-
-        response = super
-
-        puts "--- RESPONSE: #{response.status} ---"
-        ap response.headers
-        ap response.body.inspect
-        puts "---"
-
-        response
-      end
-    end
-
-    class Raw
-      module Implementation
-        def run
-          response = Typhoeus::Request.new(url, options).run
-          Response.build(response.body, response.code, response.headers)
-        end
-      end
-
-      include Implementation
-      include Concord.new(:url, :options)
-    end
-
-    include Concord.new(:url, :options)
-
-    def self.get(url, options = {})
-      options.merge!(:method => :get)
-      new(url, options).run
-    end
-
-    def self.post(url, options = {})
-      options.merge!(:method => :post)
-      new(url, options).run
-    end
-
-    def run
-      Raw.new(url, options).run
-    end
-  end
-
   class Session
     class Requester
 
