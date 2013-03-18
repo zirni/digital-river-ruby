@@ -29,6 +29,22 @@ def hashes2ostruct(object)
 end
 
 module DigitalRiver
+  class BasicError < StandardError
+    def self.build(id, message)
+      case id
+      when "invalid_token"
+        InvalidTokenError
+      when "resource-not-found"
+        ResourceNotFound
+      else
+        BasicError
+      end.new(message)
+    end
+  end
+
+  class InvalidTokenError < BasicError; end;
+  class ResourceNotFound < BasicError; end;
+
   class Response
     class Json
       def self.build(body, status, headers)
@@ -36,7 +52,14 @@ module DigitalRiver
       end
     end
 
+    class Xml
+      def self.build(body, status, headers)
+        Response.new(Hash.from_xml(body), status, headers)
+      end
+    end
+
     class Error < self
+      # https://developers.digitalriver.com/page/common-errors
       def self.build(body, status, headers)
         new(body["errors"], status, headers)
       end
@@ -48,6 +71,12 @@ module DigitalRiver
       def error_messages
         body["error"]
       end
+
+      def to_exception
+        error = body["error"]
+        error = error.first if error.is_a?(Array)
+        BasicError.build(error["code"], error["description"])
+      end
     end
 
     include Concord.new(:body, :status, :headers)
@@ -55,11 +84,13 @@ module DigitalRiver
     def self.build(body, status, headers)
       response = if headers["Content-Type"].to_s.include?("application/json")
         Json.build(body, status, headers)
+      elsif headers["Content-Type"].to_s.include?("application/xml")
+        Xml.build(body, status, headers)
       else
         new(body, status, headers)
       end
 
-      if body["errors"]
+      if response.body["errors"]
         response = Error.build(response.body, response.status, response.headers)
       end
 
@@ -290,8 +321,7 @@ module DigitalRiver
       end
 
       def retrieve_response
-        session.post(url, :body => {:shopper => options},
-                          :headers => {'Content-Type' => 'application/json'})
+        session.post(url, :body => {:shopper => options})
       end
     end
 

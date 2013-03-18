@@ -21,14 +21,21 @@ module DigitalRiver
         session = Session.build(
           Session::Json.build(
             Session::Token.build(Session::Requester.new, token)))
-        token = session
-        # raise token.requester.class.inspect
 
         Request::Raw.class_eval do
           include Request::Debug
         end
+
+        # Test exceptions
+        # requester = Session::Token.new(Session::Requester.new, token)
+        # requester = Session::Json.build(Session::Requester.new)
+        # requester = session
+        # r = requester.get("https://api.digitalriver.com/v1/shoppers/me/produ/")
+        # raise r.to_exception
+        ###
+
         # Example shopper resource
-        r = ShopperResource.update(token, {:currency => "USD", :locale => "en_US"}).response
+        # r = ShopperResource.update(requester, {:currency => "USD", :locale => "en_US"}).response
         # r = token.shopper_resource!
         # session = Session.build(token)
 
@@ -74,11 +81,12 @@ module DigitalRiver
         # EOS
         # ap Hash.from_xml(s)
 
-        body = {:lineItems => {:lineItem => [{:product => {:id => 257619000}}]}}
-        token.post("https://api.digitalriver.com/v1/shoppers/me/carts/active/line-items",
-                       :body => body)
+        # body = {:lineItems => {:lineItem => [{:product => {:id => 257619000}}]}}
+        # session.post("https://api.digitalriver.com/v1/shoppers/me/carts/active/line-items",
+        #                :body => body)
 
-        # token.get("https://api.digitalriver.com/v1/shoppers/me/carts/active/web-checkout")
+        # requester = Session::Token.new(Session::Requester.new, token)
+        # requester.get("https://api.digitalriver.com/v1/shoppers/me/carts/active/web-checkout")
         # r = token.get("https://api.digitalriver.com/v1/shoppers/me/carts/active/line-items")
         ###
       end
