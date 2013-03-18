@@ -289,15 +289,6 @@ module DigitalRiver
   end
 
   class Auth
-    class Token
-      def self.build(attributes)
-        new(attributes.symbolize_keys)
-      end
-
-      include Adamantium
-      include Anima.new(:access_token, :token_type, :expires_in, :refresh_token, :scope)
-    end
-
     URL = "https://api.digitalriver.com/oauth20/token".freeze
 
     include Concord.new(:client_id, :password)

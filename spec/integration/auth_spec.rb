@@ -1,5 +1,4 @@
 require "spec_helper"
-require "./auth"
 
 module DigitalRiver
   describe Auth do
