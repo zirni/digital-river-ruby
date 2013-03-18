@@ -1,4 +1,5 @@
 require "typhoeus"
+require "adamantium"
 require "concord"
 require "anima"
 require "json"
@@ -99,11 +100,6 @@ module DigitalRiver
 
       include Implementation
       include Concord.new(:url, :options)
-
-      # def options
-      #   @options.merge(:verbose => true)
-      # end
-
     end
 
     include Concord.new(:url, :options)
@@ -232,8 +228,8 @@ module DigitalRiver
         new(attributes.symbolize_keys)
       end
 
+      include Adamantium
       include Anima.new(:access_token, :token_type, :expires_in, :refresh_token, :scope)
-
     end
 
     URL = "https://api.digitalriver.com/oauth20/token".freeze
@@ -241,15 +237,14 @@ module DigitalRiver
     include Concord.new(:client_id, :password)
 
     def token
-      response = Request::Raw.new(URL,
-                                  :method => :post,
+      response = Request.post(URL,
                                   :headers => {
                                     "Accept" => "application/json"
                                   },
                                   :body => {
                                     :client_id => client_id,
                                     :grant_type => password
-                                  }).run
+                                  })
       Token.build(response.body)
     end
   end
