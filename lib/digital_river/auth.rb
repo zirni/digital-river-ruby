@@ -1,33 +1,3 @@
-require "typhoeus"
-require "adamantium"
-require "concord"
-require "anima"
-require "json"
-require "active_support/core_ext/hash/keys"
-require "active_support/core_ext/hash/except"
-require "active_support/core_ext/object/to_query"
-require "active_support/core_ext/hash/conversions"
-require "uri"
-require "ostruct"
-require "active_support/time_with_zone"
-require "awesome_print"
-
-def hashes2ostruct(object)
-  return case object
-  when Hash
-    object = object.clone
-    object.each do |key, value|
-      object[key] = hashes2ostruct(value)
-    end
-    OpenStruct.new(object)
-  when Array
-    object = object.clone
-    object.map! { |i| hashes2ostruct(i) }
-  else
-    object
-  end
-end
-
 module DigitalRiver
   class BasicError < StandardError
     def self.build(id, message)
@@ -359,27 +329,4 @@ module DigitalRiver
     end
   end
 
-  class ProductResource
-    def self.search(session, options = {})
-      Search.build(session, options)
-    end
-
-    class Search
-      def self.build(session, options)
-        new(session, options)
-      end
-
-      URL = "https://api.digitalriver.com/v1/shoppers/me/products".freeze
-
-      include Resource
-      include Resource::Response
-      include Concord.new(:session, :options)
-
-      def url
-        uri = URI.parse(URL)
-        uri.query = options.to_query
-        uri.to_s
-      end
-    end
-  end
 end
