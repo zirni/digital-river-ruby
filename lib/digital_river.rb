@@ -35,6 +35,10 @@ require "digital_river/resource"
 require "digital_river/resource/response"
 require "digital_river/product_resource"
 require "digital_river/product_resource/search"
+require "digital_river/response"
+require "digital_river/response/json"
+require "digital_river/response/xml"
+require "digital_river/response/error"
 
 require "digital_river/auth"
 
