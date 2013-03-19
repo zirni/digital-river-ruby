@@ -28,6 +28,16 @@ module DigitalRiver
 
   class InvalidTokenError < BasicError; end;
   class ResourceNotFound < BasicError; end;
+
+  class << self
+    def oauth2_session(client_id, grant_type)
+      auth = Auth.new(client_id, grant_type)
+
+      Session.build(
+        Session::Json.build(
+          Session::Token.build(Session::Requester.new, auth.token)))
+    end
+  end
 end
 
 require "digital_river/auth/token"
