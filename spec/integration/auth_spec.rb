@@ -9,7 +9,7 @@ module DigitalRiver
       let(:arguments) { ["client_id", "password"] }
 
       its(:client_id) { should eq("client_id") }
-      its(:password) { should eq("password") }
+      its(:grant_type) { should eq("password") }
     end
 
     context "spike" do

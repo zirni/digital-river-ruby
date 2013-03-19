@@ -2,7 +2,7 @@ module DigitalRiver
   class Auth
     URL = "https://api.digitalriver.com/oauth20/token".freeze
 
-    include Concord.new(:client_id, :password)
+    include Concord.new(:client_id, :grant_type)
 
     def token
       response = Request.post(URL,
@@ -11,7 +11,7 @@ module DigitalRiver
                                   },
                                   :body => {
                                     :client_id => client_id,
-                                    :grant_type => password
+                                    :grant_type => grant_type
                                   })
       Token.build(response.body)
     end
