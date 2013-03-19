@@ -16,6 +16,6 @@ Gem::Specification.new do |gem|
   gem.add_runtime_dependency("adamantium",    "~> 0.0.7" )
   gem.add_runtime_dependency("concord",       "~> 0.0.3" )
   gem.add_runtime_dependency("anima",         "~> 0.0.6" )
-  gem.add_runtime_dependency("activesupport", "~> 3.2.12")
+  gem.add_runtime_dependency("activesupport", "~> 3.2.13")
   gem.add_runtime_dependency("awesome_print", "~> 1.0.2" )
 end

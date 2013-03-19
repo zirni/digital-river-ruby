@@ -28,10 +28,7 @@ module DigitalRiver
       end
 
       def headers
-        {
-          "Content-Type" => "application/json",
-                "Accept" => "application/json"
-        }
+        { "Accept" => "application/json" }
       end
     end
   end

@@ -11,7 +11,7 @@ module DigitalRiver
 
         puts "--- RESPONSE: #{response.status} ---"
         ap response.headers
-        ap response.body.inspect
+        ap response.body
         puts "---"
 
         response
