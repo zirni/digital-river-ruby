@@ -25,6 +25,13 @@ module DigitalRiver
           Session::Json.build(
             Session::Token.build(Session::Requester.new, token)))
 
+        # Example shopper resource
+        ShopperResource.update(session, {:currency => "USD", :locale => "en_US"}).response
+        # session = Session.build(requester)
+        r = session.shopper_resource!
+        # session = Session.build(token)
+        # r = session.product_search!(:externalReferenceId => "500797", :companyId => "sennheis")
+        ###
 
         # Test exceptions
         # requester = Session::Token.new(Session::Requester.new, token)
@@ -35,14 +42,6 @@ module DigitalRiver
         # raise r.to_exception
         ###
 
-        # Example shopper resource
-        # r = ShopperResource.update(session, {:currency => "USD", :locale => "en_US"}).response
-        # session = Session.build(requester)
-        # r = session.shopper_resource!
-        # session = Session.build(token)
-
-        # r = session.product_search!(:externalReferenceId => "500797", :companyId => "sennheis")
-        ###
 
         # Example by me sku or externalReferenceId search
         # product: Momentum, externalReferenceId: 505630

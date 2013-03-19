@@ -8,7 +8,7 @@ module DigitalRiver
       Update.new(session, options)
     end
 
-    URL = "https://api.digitalriver.com/v1/shoppers/me".freeze
+    URL = "https://api.digitalriver.com/v1/shoppers/me?expand=all".freeze
     include Resource
     include Resource::Response
 
