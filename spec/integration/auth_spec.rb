@@ -19,11 +19,13 @@ module DigitalRiver
           include Request::Debug
         end
 
-        auth = Auth.new("0bfb94e0f04b78941e7d4d8c9dc65cc2", "password")
-        token = auth.token
-        session = Session.build(
-          Session::Json.build(
-            Session::Token.build(Session::Requester.new, token)))
+        # auth = Auth.new("0bfb94e0f04b78941e7d4d8c9dc65cc2", "password")
+        # token = auth.token
+        # session = Session.build(
+        #   Session::Json.build(
+        #     Session::Token.build(Session::Requester.new, token)))
+
+        session = DigitalRiver.oauth2_session("0bfb94e0f04b78941e7d4d8c9dc65cc2", "password")
 
         # Example shopper resource
         ShopperResource.update(session, {:currency => "USD", :locale => "en_US"}).response
