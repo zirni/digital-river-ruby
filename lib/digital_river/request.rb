@@ -12,6 +12,11 @@ module DigitalRiver
       new(url, options).run
     end
 
+    def self.delete(url, options = {})
+      options.merge!(:method => :delete)
+      new(url, options).run
+    end
+
     def run
       Raw.new(url, options).run
     end

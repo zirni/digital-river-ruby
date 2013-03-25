@@ -12,6 +12,10 @@ module DigitalRiver
       def post(*args)
         Request.post(*args)
       end
+
+      def delete(*args)
+        Request.delete(*args)
+      end
     end
   end
 end
