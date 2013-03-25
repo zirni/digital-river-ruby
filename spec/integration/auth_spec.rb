@@ -25,12 +25,16 @@ module DigitalRiver
           Session::Json.build(
             Session::Token.build(Session::Requester.new, token)))
 
+        # session = Session.build(
+        #   Session::Json.build(
+        #     Session::Token.build(Session::Requester.new, token)))
+
         # session = DigitalRiver.oauth2_session("0bfb94e0f04b78941e7d4d8c9dc65cc2", "password")
 
         # Example shopper resource
         ShopperResource.update(session, {:currency => "USD", :locale => "en_US"}).response
         # session = Session.build(requester)
-        r = session.shopper_resource!
+        # r = session.shopper_resource!
         # session = Session.build(token)
         # r = session.product_search!(:externalReferenceId => "500797", :companyId => "sennheis")
         ###
@@ -84,9 +88,20 @@ module DigitalRiver
         # EOS
         # ap Hash.from_xml(s)
 
-        # body = {:lineItems => {:lineItem => [{:product => {:id => 257619000}}]}}
-        # session.post("https://api.digitalriver.com/v1/shoppers/me/carts/active/line-items",
-        #                :body => body)
+        body = {:lineItems => {:lineItem => [{:product => {:id => 257619000}}]}}
+        session.post("https://api.digitalriver.com/v1/shoppers/me/carts/active/line-items",
+                       :body => body)
+
+        r = session.get("https://api.digitalriver.com/v1/shoppers/me/carts/active/line-items")
+        line_item_id = r.body["lineItems"]["lineItem"].first["id"]
+
+        r = session.delete("https://api.digitalriver.com/v1/shoppers/me/carts/active/line-items/#{line_item_id}")
+        # raise r.inspect
+
+        # r = session.post("https://api.digitalriver.com/v1/shoppers/me/carts/active/line-items/#{line_item_id}?quantity=3")
+        # if r.errors?
+        #   raise r.to_exception
+        # end
 
         # requester = Session::Token.new(Session::Requester.new, token)
         # requester.get("https://api.digitalriver.com/v1/shoppers/me/carts/active/web-checkout")

@@ -6,7 +6,7 @@ module DigitalRiver
 
     include Concord.new(:requester)
 
-    delegate :get, :post, :to => :requester
+    delegate :get, :post, :delete, :to => :requester
 
     def shopper_resource
       ShopperResource.build(requester).response

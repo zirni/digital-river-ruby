@@ -19,6 +19,12 @@ module DigitalRiver
         requester.post(url, options)
       end
 
+      def delete(url, options = {})
+        options = prepare_headers(options, headers)
+
+        requester.delete(url, options)
+      end
+
       private
 
       def prepare_headers(options, headers)
