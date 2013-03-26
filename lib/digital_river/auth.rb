@@ -6,14 +6,21 @@ module DigitalRiver
 
     def token
       response = Request.post(URL,
-                                  :headers => {
-                                    "Accept" => "application/json"
-                                  },
-                                  :body => {
-                                    :client_id => client_id,
-                                    :grant_type => grant_type
-                                  })
+                              :headers => headers,
+                              :body => body.to_param)
+
       Token.build(response.body)
+    end
+
+    private
+
+    def headers
+      {"Accept" => "application/json",
+       "Content-Type" => "application/x-www-form-urlencoded" }
+    end
+
+    def body
+      {:client_id => client_id, :grant_type => grant_type}
     end
   end
 end

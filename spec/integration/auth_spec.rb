@@ -13,8 +13,8 @@ module DigitalRiver
     end
 
     context "spike" do
-      it "retrieves a token" do
-
+      pending "retrieves a token" do
+        VCR.turned_off do
         Request::Raw.class_eval do
           include Request::Debug
         end
@@ -98,14 +98,14 @@ module DigitalRiver
 
         # r = session.post("https://api.digitalriver.com/v1/shoppers/me/carts/active/line-items/productId=#{p1}")
         # raise r.inspect
-        r = session.post("https://api.digitalriver.com/v1/shoppers/me/carts/active/line-items?productId=#{p1}")
+        # r = session.post("https://api.digitalriver.com/v1/shoppers/me/carts/active/line-items?productId=#{p1}")
         # r = session.post("https://api.digitalriver.com/v1/shoppers/me/carts/active/line-items?productId=#{p1}")
         # r = session.post("https://api.digitalriver.com/v1/shoppers/me/carts/active/line-items?productId=#{p2}")
-        line_item_id = r.body["lineItems"]["lineItem"].first["id"]
+        # line_item_id = r.body["lineItems"]["lineItem"].first["id"]
 
-        r = session.post("https://api.digitalriver.com/v1/shoppers/me/carts/active/line-items/#{line_item_id}?quantity=#{2}")
+        # r = session.post("https://api.digitalriver.com/v1/shoppers/me/carts/active/line-items/#{line_item_id}?quantity=#{2}")
 
-        r = session.get("https://api.digitalriver.com/v1/shoppers/me/carts/active/line-items")
+        # r = session.get("https://api.digitalriver.com/v1/shoppers/me/carts/active/line-items")
         # raise r.inspect
         # raise r.body["lineItems"]["lineItem"].size.inspect
         # line_item_id = r.body["lineItems"]["lineItem"].first["id"]
@@ -123,6 +123,7 @@ module DigitalRiver
         # raise r.inspect
         # r = token.get("https://api.digitalriver.com/v1/shoppers/me/carts/active/line-items")
         ###
+        end
       end
     end
 
