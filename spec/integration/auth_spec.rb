@@ -55,6 +55,8 @@ module DigitalRiver
         # r = token.product_search(:externalReferenceId => "95",     :companyId => "sennheis")
 
         # url = "https://api.digitalriver.com/v1/shoppers/me/products/245551600"
+        # r = session.get("https://api.digitalriver.com/v1/shoppers/me/products/257619000")
+        # raise r.inspect
         # r = token.get(url)
         # ap r
         ###
@@ -67,10 +69,11 @@ module DigitalRiver
         ###
 
         # Product search
-        # r = token.product_search
-        # r = token.get("https://api.digitalriver.com/v1/shoppers/me/product-search",
+        # r = session.product_search(:expand => "all")
+        # r = session.product_search(:pageSize => 1000)
+        # r = session.get("https://api.digitalriver.com/v1/shoppers/me/product-search",
         #               :params => {:keyword => "momentum"})
-        # r = token.get("https://api.digitalriver.com/v1/shoppers/me/products/257619000")
+        # r = session.get("https://api.digitalriver.com/v1/shoppers/me/products/257619000")
         ###
 
         # Shopping cart
@@ -89,22 +92,35 @@ module DigitalRiver
         # ap Hash.from_xml(s)
 
         body = {:lineItems => {:lineItem => [{:product => {:id => 257619000}}]}}
-        session.post("https://api.digitalriver.com/v1/shoppers/me/carts/active/line-items",
-                       :body => body)
 
-        r = session.get("https://api.digitalriver.com/v1/shoppers/me/carts/active/line-items")
+        p1 = "272115300"
+        p2 = "257619000"
+
+        # r = session.post("https://api.digitalriver.com/v1/shoppers/me/carts/active/line-items/productId=#{p1}")
+        # raise r.inspect
+        r = session.post("https://api.digitalriver.com/v1/shoppers/me/carts/active/line-items?productId=#{p1}")
+        # r = session.post("https://api.digitalriver.com/v1/shoppers/me/carts/active/line-items?productId=#{p1}")
+        # r = session.post("https://api.digitalriver.com/v1/shoppers/me/carts/active/line-items?productId=#{p2}")
         line_item_id = r.body["lineItems"]["lineItem"].first["id"]
 
-        r = session.delete("https://api.digitalriver.com/v1/shoppers/me/carts/active/line-items/#{line_item_id}")
+        r = session.post("https://api.digitalriver.com/v1/shoppers/me/carts/active/line-items/#{line_item_id}?quantity=#{2}")
+
+        r = session.get("https://api.digitalriver.com/v1/shoppers/me/carts/active/line-items")
+        # raise r.inspect
+        # raise r.body["lineItems"]["lineItem"].size.inspect
+        # line_item_id = r.body["lineItems"]["lineItem"].first["id"]
+
+        # r = session.delete("https://api.digitalriver.com/v1/shoppers/me/carts/active/line-items/#{line_item_id}")
         # raise r.inspect
 
-        # r = session.post("https://api.digitalriver.com/v1/shoppers/me/carts/active/line-items/#{line_item_id}?quantity=3")
+        # r = session.post("https://api.digitalriver.com/v1/shoppers/me/carts/active/line-items/productId=#{line_item_id}")
         # if r.errors?
         #   raise r.to_exception
         # end
 
         # requester = Session::Token.new(Session::Requester.new, token)
-        # requester.get("https://api.digitalriver.com/v1/shoppers/me/carts/active/web-checkout")
+        # r = requester.get("https://api.digitalriver.com/v1/shoppers/me/carts/active/web-checkout")
+        # raise r.inspect
         # r = token.get("https://api.digitalriver.com/v1/shoppers/me/carts/active/line-items")
         ###
       end
