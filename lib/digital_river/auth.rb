@@ -4,6 +4,7 @@ module DigitalRiver
 
     include Concord.new(:client_id, :grant_type)
 
+    # It asks the API for a new access token
     def token
       response = Request.post(URL,
                               :headers => headers,

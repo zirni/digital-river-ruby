@@ -9,28 +9,38 @@ module DigitalRiver
 
     subject { object.token }
 
-    it "retrieves a new access token" do
-      url = "https://api.digitalriver.com/oauth20/token"
+    context "#token" do
+      before(:each) do
+        url = "https://api.digitalriver.com/oauth20/token"
 
-      headers = {"Accept"       => "application/json",
-                 "Content-Type" => "application/x-www-form-urlencoded" }
+        headers = {"Accept"       => "application/json",
+                   "Content-Type" => "application/x-www-form-urlencoded" }
 
-      body    = {:client_id     => client_id,
-                 :grant_type    => grant_type}
+        body    = {:client_id     => client_id,
+                   :grant_type    => grant_type}
 
-      token = {:access_token  => "access_token",
-              :token_type    => "token_type",
-              :expires_in    => 123,
-              :refresh_token => "refresh_token",
-              :scope         => "scope"}
+        token = {:access_token  => "access_token",
+                 :token_type    => "token_type",
+                 :expires_in    => 123,
+                 :refresh_token => "refresh_token",
+                 :scope         => "scope"}
 
-      response = OpenStruct.new(:body => token)
+        response = OpenStruct.new(:body => token)
 
-      Request.should_receive(:post).
-        with(url, :headers => headers, :body => body.to_param).
-        and_return(response)
+        Request.should_receive(:post).
+          with(url, :headers => headers, :body => body.to_param).
+          and_return(response)
+      end
 
-      subject
+      its(:access_token) { should eq("access_token") }
+      its(:token_type) { should eq("token_type") }
+      its(:expires_in) { should eq(123) }
+      its(:refresh_token) { should eq("refresh_token") }
+      its(:scope) { should eq("scope") }
+
+      it "retrieves a new access token" do
+        subject.should be_an_instance_of(Token)
+      end
     end
   end
 end
