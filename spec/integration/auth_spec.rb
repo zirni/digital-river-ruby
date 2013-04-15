@@ -18,10 +18,15 @@ module DigitalRiver
         Request::Raw.class_eval do
           include Request::Debug
         end
+        client_id = "0bfb94e0f04b78941e7d4d8c9dc65cc2"
 
-        auth = Auth.new("0bfb94e0f04b78941e7d4d8c9dc65cc2", "password")
+        auth = Auth.new(client_id, "password")
         token = auth.token
         session = Session.build(token)
+
+        new_token = Auth::RefreshToken.new(client_id, token).token
+
+        session = Session.build(new_token)
 
         # session = Session.build(
         #   Session::Json.build(
@@ -103,7 +108,7 @@ module DigitalRiver
 
         # r = session.post("https://api.digitalriver.com/v1/shoppers/me/carts/active/line-items/#{line_item_id}?quantity=#{2}")
 
-        # r = session.get("https://api.digitalriver.com/v1/shoppers/me/carts/active/line-items")
+        r = session.get("https://api.digitalriver.com/v1/shoppers/me/carts/active/line-items")
         # raise r.inspect
         # raise r.body["lineItems"]["lineItem"].size.inspect
         # line_item_id = r.body["lineItems"]["lineItem"].first["id"]
@@ -117,8 +122,8 @@ module DigitalRiver
         # end
 
         # requester = Session::Token.new(Session::Requester.new, token)
-        r = session.checkout_resource
-        puts r.headers["Location"]
+        # r = session.checkout_resource
+        # puts r.headers["Location"]
 
         # r = requester.get("https://api.digitalriver.com/v1/shoppers/me/carts/active/web-checkout")
         # raise r.inspect
