@@ -7,10 +7,14 @@ module DigitalRiver
       include Resource::Response
       include Concord.new(:session, :options)
 
-      def url
-        uri = URI.parse(URL)
-        uri.query = options.to_query
-        uri.to_s
+      def retrieve_response
+        session.post(URL, :body => body)
+      end
+
+      private
+
+      def body
+        body = {:lineItems => {:lineItem => [{:product => {:id => options[:id]}}]}}
       end
     end
   end

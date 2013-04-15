@@ -102,7 +102,8 @@ module DigitalRiver
         # p1 = "272115300"
         p1 = "257619000"
 
-        r = session.post("https://api.digitalriver.com/v1/shoppers/me/carts/active/line-items", :body => body)
+        r = session.add_line_item(p1)
+        # r = session.post("https://api.digitalriver.com/v1/shoppers/me/carts/active/line-items", :body => body)
 
         # session.delete_line_item(
         # r = session.post("https://api.digitalriver.com/v1/shoppers/me/carts/active/line-items?productId=#{p1}")

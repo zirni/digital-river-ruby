@@ -57,14 +57,14 @@ module DigitalRiver
       ShopperResource.update(self, options).response!
     end
 
-    def delete_line_item(id)
+    def add_line_item(id)
       options = {:id => id}
-      LineItemsResource::Destroy.new(self, options).response
+      LineItemsResource::Add.new(self, options).response
     end
 
-    def delete_line_item!(id)
+    def add_line_item!(id)
       options = {:id => id}
-      LineItemsResource::Destroy.new(self, options).response!
+      LineItemsResource::Add.new(self, options).response!
     end
 
     def update_line_item(id, quantity)
@@ -75,6 +75,16 @@ module DigitalRiver
     def update_line_item!(id, quantity)
       options = {:id => id, :quantity => quantity}
       LineItemsResource::Update.new(self, options).response!
+    end
+
+    def delete_line_item(id)
+      options = {:id => id}
+      LineItemsResource::Destroy.new(self, options).response
+    end
+
+    def delete_line_item!(id)
+      options = {:id => id}
+      LineItemsResource::Destroy.new(self, options).response!
     end
   end
 end
