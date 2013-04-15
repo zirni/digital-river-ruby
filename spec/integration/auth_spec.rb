@@ -24,7 +24,8 @@ module DigitalRiver
         token = auth.token
         session = Session.build(token)
 
-        new_token = Auth::RefreshToken.new(client_id, token).token
+        # new_token = Auth::RefreshToken.new(client_id, token).token
+        new_token = session.refresh_token(client_id)
 
         session = Session.build(new_token)
 

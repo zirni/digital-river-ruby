@@ -44,5 +44,9 @@ module DigitalRiver
     def checkout_resource
       CheckoutResource.build(self).response!
     end
+
+    def refresh_token(client_id, token = self.token)
+      Auth::RefreshToken.new(client_id, token).token
+    end
   end
 end
