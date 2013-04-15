@@ -48,5 +48,13 @@ module DigitalRiver
     def refresh_token(client_id, token = self.token)
       Auth::RefreshToken.new(client_id, token).token
     end
+
+    def update_shopper_resource(options = {})
+      ShopperResource.update(self, options).response
+    end
+
+    def update_shopper_resource!(options = {})
+      ShopperResource.update(self, options).response!
+    end
   end
 end
