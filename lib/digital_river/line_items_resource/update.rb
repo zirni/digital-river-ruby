@@ -1,8 +1,6 @@
 module DigitalRiver
   class LineItemsResource
     class Update
-      URL = "https://api.digitalriver.com/v1/shoppers/me/carts/active/line-items".freeze
-
       include Resource
       include Resource::Response
       include Concord.new(:session, :options)
@@ -14,7 +12,8 @@ module DigitalRiver
       def url
         id = options[:id]
         quantity = options[:quantity]
-        "#{URL}/#{id}?quantity=#{quantity}"
+        u = File.join(DigitalRiver.config.url, "shoppers/me/carts/active/line-items")
+        "#{u}/#{id}?quantity=#{quantity}"
       end
     end
   end

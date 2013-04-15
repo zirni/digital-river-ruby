@@ -1,14 +1,16 @@
 module DigitalRiver
   class LineItemsResource
     class Add
-      URL = "https://api.digitalriver.com/v1/shoppers/me/carts/active/line-items".freeze
-
       include Resource
       include Resource::Response
       include Concord.new(:session, :options)
 
       def retrieve_response
-        session.post(URL, :body => body)
+        session.post(url, :body => body)
+      end
+
+      def url
+        File.join(DigitalRiver.config.url, "shoppers/me/carts/active/line-items")
       end
 
       private

@@ -2,16 +2,18 @@
 module DigitalRiver
   class Auth
     class RefreshToken
-      URL = "https://api.digitalriver.com/oauth20/token".freeze
-
       include Concord.new(:client_id, :atoken)
 
       def token
-        response = Request.post(URL,
+        response = Request.post(url,
                                 :headers => headers,
                                 :body => body.to_param)
 
         Token.build(response.body)
+      end
+
+      def url
+        File.join(DigitalRiver.config.host, "oauth20/token")
       end
 
       private

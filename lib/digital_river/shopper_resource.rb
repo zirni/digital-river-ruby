@@ -8,12 +8,11 @@ module DigitalRiver
       Update.new(session, options)
     end
 
-    URL = "https://api.digitalriver.com/v1/shoppers/me?expand=all".freeze
     include Resource
     include Resource::Response
 
     def url
-      URL
+      File.join(DigitalRiver.config.url, "shoppers/me?expand=all")
     end
   end
 end
