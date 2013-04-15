@@ -36,7 +36,9 @@ module DigitalRiver
         # session = DigitalRiver.oauth2_session("0bfb94e0f04b78941e7d4d8c9dc65cc2", "password")
 
         # Example shopper resource
-        ShopperResource.update(session, {:currency => "USD", :locale => "en_US"}).response
+        session.update_shopper_resource(:currency => "USD", :locale => "en_US")
+        # session.update_shopper_resource!update_shopper_resource(:currency => "USD", :locale => "en_US")
+        # ShopperResource.update(session, {:currency => "USD", :locale => "en_US"}).response
         # session = Session.build(requester)
         # r = session.shopper_resource!
         # session = Session.build(token)
