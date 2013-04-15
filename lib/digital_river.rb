@@ -63,6 +63,7 @@ require "digital_river/shopper_resource/update"
 require "digital_river/line_items_resource"
 require "digital_river/line_items_resource/add"
 require "digital_river/line_items_resource/destroy"
+require "digital_river/line_items_resource/update"
 require "digital_river/checkout_resource"
 
 require "digital_river/auth"

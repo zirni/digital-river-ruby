@@ -67,5 +67,14 @@ module DigitalRiver
       LineItemsResource::Destroy.new(self, options).response!
     end
 
+    def update_line_item(id, quantity)
+      options = {:id => id, :quantity => quantity}
+      LineItemsResource::Update.new(self, options).response
+    end
+
+    def update_line_item!(id, quantity)
+      options = {:id => id, :quantity => quantity}
+      LineItemsResource::Update.new(self, options).response!
+    end
   end
 end
