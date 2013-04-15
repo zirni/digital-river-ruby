@@ -40,6 +40,7 @@ module DigitalRiver
   end
 end
 
+require "digital_river/auth/refresh_token"
 require "digital_river/auth/token"
 require "digital_river/resource"
 require "digital_river/resource/response"
