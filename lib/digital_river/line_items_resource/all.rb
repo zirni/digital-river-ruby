@@ -1,14 +1,12 @@
 module DigitalRiver
   class LineItemsResource
     class All
-      URL = "https://api.digitalriver.com/v1/shoppers/me/carts/active/line-items".freeze
-
       include Resource
       include Resource::Response
       include Concord.new(:session, :options)
 
       def url
-        URL
+        File.join(DigitalRiver.config.url, "shoppers/me/carts/active/line-items")
       end
     end
   end

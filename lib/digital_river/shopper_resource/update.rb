@@ -1,13 +1,12 @@
 module DigitalRiver
   class ShopperResource
     class Update
-      URL = "https://api.digitalriver.com/v1/shoppers/me".freeze
       include Resource
       include Resource::Response
       include Concord.new(:session, :options)
 
       def url
-        URL
+        File.join(DigitalRiver.config.url, "shoppers/me")
       end
 
       def retrieve_response

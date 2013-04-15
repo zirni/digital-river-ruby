@@ -5,14 +5,13 @@ module DigitalRiver
         new(session, options)
       end
 
-      URL = "https://api.digitalriver.com/v1/shoppers/me/products".freeze
-
       include Resource
       include Resource::Response
       include Concord.new(:session, :options)
 
       def url
-        uri = URI.parse(URL)
+        u = File.join(DigitalRiver.config.url, "shoppers/me/products")
+        uri = URI.parse(u)
         uri.query = options.to_query
         uri.to_s
       end

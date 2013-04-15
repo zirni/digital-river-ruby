@@ -24,25 +24,19 @@ module DigitalRiver
         token = auth.token
         session = Session.build(token)
 
-        # new_token = Auth::RefreshToken.new(client_id, token).token
         new_token = session.refresh_token(client_id)
 
         session = Session.build(new_token)
-
-        # session = Session.build(
-        #   Session::Json.build(
-        #     Session::Token.build(Session::Requester.new, token)))
-
-        # session = DigitalRiver.oauth2_session("0bfb94e0f04b78941e7d4d8c9dc65cc2", "password")
 
         # Example shopper resource
         session.update_shopper_resource(:currency => "USD", :locale => "en_US")
         # session.update_shopper_resource!update_shopper_resource(:currency => "USD", :locale => "en_US")
         # ShopperResource.update(session, {:currency => "USD", :locale => "en_US"}).response
         # session = Session.build(requester)
-        # r = session.shopper_resource!
+        r = session.shopper_resource!
         # session = Session.build(token)
-        # r = session.product_search!(:externalReferenceId => "500797", :companyId => "sennheis")
+        r = session.product_search!(:externalReferenceId => "500797", :companyId => "sennheis")
+        raise r.inspect
         ###
 
         # Test exceptions
@@ -120,7 +114,7 @@ module DigitalRiver
         line_item_id = r.body["lineItems"]["lineItem"].first["id"]
         r = session.update_line_item(line_item_id, 3)
 
-        # r = session.delete_line_item(line_item_id)
+        r = session.delete_line_item(line_item_id)
         # r = session.delete("https://api.digitalriver.com/v1/shoppers/me/carts/active/line-items/#{line_item_id}")
         # raise r.inspect
 
@@ -130,8 +124,8 @@ module DigitalRiver
         # end
 
         # requester = Session::Token.new(Session::Requester.new, token)
-        # r = session.checkout_resource
-        # puts r.headers["Location"]
+        r = session.checkout_resource
+        puts r.headers["Location"]
 
         # r = requester.get("https://api.digitalriver.com/v1/shoppers/me/carts/active/web-checkout")
         # raise r.inspect

@@ -12,6 +12,8 @@ require "ostruct"
 require "active_support/time_with_zone"
 require "awesome_print"
 
+require "digital_river/config"
+
 module DigitalRiver
   class BasicError < StandardError
     def self.build(id, message)
@@ -30,12 +32,8 @@ module DigitalRiver
   class ResourceNotFound < BasicError; end;
 
   class << self
-    def oauth2_session(client_id, grant_type)
-      auth = Auth.new(client_id, grant_type)
-
-      Session.build(
-        Session::Json.build(
-          Session::Token.build(Session::Requester.new, auth.token)))
+    def config
+      @config ||= Config.new
     end
   end
 end
