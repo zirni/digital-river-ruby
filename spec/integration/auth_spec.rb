@@ -116,8 +116,9 @@ module DigitalRiver
         # raise r.inspect
         # raise r.body["lineItems"]["lineItem"].size.inspect
         line_item_id = r.body["lineItems"]["lineItem"].first["id"]
+        r = session.update_line_item(line_item_id, 3)
 
-        r = session.delete_line_item(line_item_id)
+        # r = session.delete_line_item(line_item_id)
         # r = session.delete("https://api.digitalriver.com/v1/shoppers/me/carts/active/line-items/#{line_item_id}")
         # raise r.inspect
 
