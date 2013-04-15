@@ -97,13 +97,14 @@ module DigitalRiver
         # EOS
         # ap Hash.from_xml(s)
 
-        # body = {:lineItems => {:lineItem => [{:product => {:id => 257619000}}]}}
+        body = {:lineItems => {:lineItem => [{:product => {:id => 257619000}}]}}
 
         # p1 = "272115300"
-        # p2 = "257619000"
+        p1 = "257619000"
 
-        # r = session.post("https://api.digitalriver.com/v1/shoppers/me/carts/active/line-items/productId=#{p1}")
-        # raise r.inspect
+        r = session.post("https://api.digitalriver.com/v1/shoppers/me/carts/active/line-items", :body => body)
+
+        # session.delete_line_item(
         # r = session.post("https://api.digitalriver.com/v1/shoppers/me/carts/active/line-items?productId=#{p1}")
         # r = session.post("https://api.digitalriver.com/v1/shoppers/me/carts/active/line-items?productId=#{p1}")
         # r = session.post("https://api.digitalriver.com/v1/shoppers/me/carts/active/line-items?productId=#{p2}")
@@ -111,11 +112,12 @@ module DigitalRiver
 
         # r = session.post("https://api.digitalriver.com/v1/shoppers/me/carts/active/line-items/#{line_item_id}?quantity=#{2}")
 
-        r = session.get("https://api.digitalriver.com/v1/shoppers/me/carts/active/line-items")
+        # r = session.get("https://api.digitalriver.com/v1/shoppers/me/carts/active/line-items")
         # raise r.inspect
         # raise r.body["lineItems"]["lineItem"].size.inspect
-        # line_item_id = r.body["lineItems"]["lineItem"].first["id"]
+        line_item_id = r.body["lineItems"]["lineItem"].first["id"]
 
+        r = session.delete_line_item(line_item_id)
         # r = session.delete("https://api.digitalriver.com/v1/shoppers/me/carts/active/line-items/#{line_item_id}")
         # raise r.inspect
 
