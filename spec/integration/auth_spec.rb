@@ -13,17 +13,15 @@ module DigitalRiver
     end
 
     context "spike" do
-      pending "retrieves a token" do
-        VCR.turned_off do
+      it "retrieves a token" do
+        # VCR.turned_off do
         Request::Raw.class_eval do
           include Request::Debug
         end
 
         auth = Auth.new("0bfb94e0f04b78941e7d4d8c9dc65cc2", "password")
         token = auth.token
-        session = Session.build(
-          Session::Json.build(
-            Session::Token.build(Session::Requester.new, token)))
+        session = Session.build(token)
 
         # session = Session.build(
         #   Session::Json.build(
@@ -91,10 +89,10 @@ module DigitalRiver
         # EOS
         # ap Hash.from_xml(s)
 
-        body = {:lineItems => {:lineItem => [{:product => {:id => 257619000}}]}}
+        # body = {:lineItems => {:lineItem => [{:product => {:id => 257619000}}]}}
 
-        p1 = "272115300"
-        p2 = "257619000"
+        # p1 = "272115300"
+        # p2 = "257619000"
 
         # r = session.post("https://api.digitalriver.com/v1/shoppers/me/carts/active/line-items/productId=#{p1}")
         # raise r.inspect
@@ -119,11 +117,14 @@ module DigitalRiver
         # end
 
         # requester = Session::Token.new(Session::Requester.new, token)
+        r = session.checkout_resource
+        puts r.headers["Location"]
+
         # r = requester.get("https://api.digitalriver.com/v1/shoppers/me/carts/active/web-checkout")
         # raise r.inspect
         # r = token.get("https://api.digitalriver.com/v1/shoppers/me/carts/active/line-items")
         ###
-        end
+        # end
       end
     end
 
