@@ -57,6 +57,14 @@ module DigitalRiver
       ShopperResource.update(self, options).response!
     end
 
+    def line_items(options = {})
+      LineItemsResource::All.new(self, options).response
+    end
+
+    def line_items!(options = {})
+      LineItemsResource::All.new(self, options).response!
+    end
+
     def add_line_item(id)
       options = {:id => id}
       LineItemsResource::Add.new(self, options).response
