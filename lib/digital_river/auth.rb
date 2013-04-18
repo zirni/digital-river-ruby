@@ -12,11 +12,14 @@ module DigitalRiver
   class Auth
     include Concord.new(:client_id, :grant_type)
 
-    # It asks the API for a new access token.
+    # It asks the API for a new access token
     #
     # @return [Auth::Token]
     #
     # @api public
+    #
+    # @example
+    #   Auth.new("123abc", :password).token
     def token
       response = Request.post(url,
                               :headers => headers,
@@ -27,15 +30,30 @@ module DigitalRiver
 
     private
 
+    # Returns the oauth specific url
+    #
+    # @return [String]
+    #
+    # @api private
     def url
       File.join(DigitalRiver.config.oauth_url)
     end
 
+    # Returns http header
+    #
+    # @return [Hash]
+    #
+    # @api private
     def headers
       {"Accept" => "application/json",
        "Content-Type" => "application/x-www-form-urlencoded" }
     end
 
+    # Returns the http payload to be send
+    #
+    # @return [Hash]
+    #
+    # @api private
     def body
       {:client_id => client_id, :grant_type => grant_type}
     end
