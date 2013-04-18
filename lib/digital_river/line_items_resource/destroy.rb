@@ -1,5 +1,17 @@
 module DigitalRiver
   class LineItemsResource
+    # Destroys a line item from the current shopping cart
+    # by passing a line item id.
+    #
+    # https://developers.digitalriver.com/resourcemethod/delete-shoppersmecartsactiveline-itemsid
+    #
+    # @param [Session] session
+    #
+    # @param [Hash] options
+    #
+    # @example
+    #   destroy = Destroy.new(session, {:id => 123})
+    #   destroy.response
     class Destroy
       include Resource
       include Resource::Response
