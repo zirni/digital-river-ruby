@@ -11,6 +11,11 @@ module DigitalRiver
     #   sample.response
     #   sample.response!
     module Response
+
+      # Default retrieve response via get. That's the
+      # common case. Overwrite this method in your class.
+      # TODO: should this method be private? It can be protected too
+      #
       # @api private
       def retrieve_response
         session.get(url)
