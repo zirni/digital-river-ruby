@@ -5,12 +5,38 @@ Wrapper for Digital River eCommerce API.
 
 https://developers.digitalriver.com/api-home
 
-### Documentation
-We're using yard to create code documentation.
-Execute the yard command on your console and it will generate a doc directory.
+We're testing against the real API. Please keep in mind,
+that the client_id can be deactivated in the future. Don't
+when test will unexpectly fail. 
+
+Installation
+------------
+
+```ruby
+gem "digital-river-ruby", :git => "git@github.com:jabz/digital-river-ruby.git", :branch => :master
+```
+
+Development
+-----------
+
+Automated test with guard.
+
+```bash
+bundle exec guard
+```
+
+Examples
+--------
+
+See spec/integration/spike_spec.rb
+
+Documentation
+-------------
+
+Create code documentation with yard.
 
 ```bash
 yard && open doc/index.html
 ```
 
-Consider that yard will output some warning about mixins it can't document.
+Consider that yard will output some warnings about mixins it can't document.
