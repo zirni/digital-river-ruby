@@ -46,7 +46,8 @@ session = DigitalRiver::Session.build(token)
 session.update_shopper_resource(:currency => "USD", :locale => "en_US")
 
 # Add a line item to your shopping cart.
-response = session.add_line_item(p1)
+digital_river_product_id = 4711
+response = session.add_line_item(digital_river_product_id)
 
 if response.errors?
   raise response.to_exception
