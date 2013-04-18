@@ -1,5 +1,14 @@
 module DigitalRiver
   class LineItemsResource
+    # Update a line items quantity by passing a
+    # line item id and a quantity.
+    # It returns a HTTP status 204.
+    #
+    # https://developers.digitalriver.com/resourcemethod/post-shoppersmecartsactiveline-itemsid
+    #
+    # @example
+    #   update = Update.new(session, {:id => 123, :quantity => 2})
+    #   response = update.response
     class Update
       include Resource
       include Resource::Response
