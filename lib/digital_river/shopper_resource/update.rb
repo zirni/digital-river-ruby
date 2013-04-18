@@ -5,12 +5,14 @@ module DigitalRiver
       include Resource::Response
       include Concord.new(:session, :options)
 
-      def url
-        File.join(DigitalRiver.config.url, "shoppers/me")
-      end
+      private
 
       def retrieve_response
         session.post(url, :body => {:shopper => options})
+      end
+
+      def url
+        File.join(DigitalRiver.config.url, "shoppers/me")
       end
     end
   end

@@ -22,6 +22,8 @@ module DigitalRiver
     include Resource
     include Resource::Response
 
+    private
+
     # Specify how to request the resource.
     # It needs/returns XML instead of json
     #

@@ -5,6 +5,8 @@ module DigitalRiver
       include Resource::Response
       include Concord.new(:session, :options)
 
+      private
+
       def retrieve_response
         session.post(url, :body => body)
       end
@@ -12,8 +14,6 @@ module DigitalRiver
       def url
         File.join(DigitalRiver.config.url, "shoppers/me/carts/active/line-items")
       end
-
-      private
 
       def body
         body = {:lineItems => {:lineItem => [{:product => {:id => options[:id]}}]}}
