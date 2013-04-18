@@ -12,7 +12,7 @@ module DigitalRiver
     end
 
     def url
-      File.join(DigitalRiver.config.host, "oauth20/token")
+      File.join(DigitalRiver.config.oauth_url)
     end
 
     private

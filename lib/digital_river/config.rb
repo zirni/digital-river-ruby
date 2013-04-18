@@ -1,13 +1,15 @@
 module DigitalRiver
   class Config
-    attr_accessor :url, :host
+    attr_accessor :url, :oauth_url, :host
 
     def url
       @url || File.join(host, "v1")
     end
 
-    # host is used to for authentication
-    # it has no versioning in the path
+    def oauth_url
+      @oauth_url || File.join(host, "oauth20/token")
+    end
+
     def host
       @host || "https://api.digitalriver.com/"
     end
