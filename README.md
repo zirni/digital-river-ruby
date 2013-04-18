@@ -28,6 +28,53 @@ bundle exec guard
 Examples
 --------
 
+```ruby
+# always pass password as grant type. This will be obsolete soon
+auth = DigitalRiver::Auth.new("your client id", :password)
+
+# Grab your token object
+token = auth.token
+
+# Build your session. This is a convenient way to
+# talk to the API. Pass the session object to all
+# classes or objects you want them to access the API
+session = DigitalRiver::Session.build(token)
+
+# Set your currency and locale with this.
+# This is important for Digital River to
+# calculate shipping costs for instance
+session.update_shopper_resource(:currency => "USD", :locale => "en_US")
+
+# Add a line item to your shopping cart.
+response = session.add_line_item(p1)
+
+if response.errors?
+  raise response.to_exception
+else
+  # analyze response state
+  response.status
+  response.headers
+  response.body
+end
+
+# Retrieve all shopping cart line items you have added
+r = session.line_items
+
+r.body["lineItems"]["lineItem"].each do |line_item|
+  puts line_item["id"]
+end
+
+# Update the quantity of a line item
+r = session.update_line_item(line_item_id, 3)
+
+# No we want to delete this line item
+r = session.delete_line_item(line_item_id)
+
+# Ok ready for checkout
+r = session.checkout_resource
+puts r.headers["Location"] # visit this location with your browser
+```
+
 See spec/integration/spike_spec.rb
 
 Documentation
