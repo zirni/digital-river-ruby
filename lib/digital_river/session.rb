@@ -1,4 +1,10 @@
 module DigitalRiver
+  # Common interface object to access all kinds of API call.
+  # Using the session object is the common and preferable way to work.
+  #
+  # @example
+  #   session = Sessio.build(token)
+  #   session.checkout_resource #=> Response object
   class Session
     def self.build(token, requester = nil)
       requester = json_requester(token) unless requester
