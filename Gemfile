@@ -10,4 +10,5 @@ group :development, :test do
   gem "guard-rspec", "1.2.1"
   gem "rb-inotify", "~> 0.9"
   gem "yard", "~> 0.8.5.2"
+  gem "yardstick", "~> 0.9.5"
 end

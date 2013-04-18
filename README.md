@@ -40,3 +40,12 @@ yard && open doc/index.html
 ```
 
 Consider that yard will output some warnings about mixins it can't document.
+
+=== YARD Coverage
+
+See a documentation coverage.
+
+```bash
+rake verify_measurements  # Verify that yardstick coverage is at least 100%
+rake yardstick_measure    # Measure docs in lib/**/*.rb with yardstick > see measurements/report.txt
+```
