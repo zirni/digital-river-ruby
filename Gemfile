@@ -11,4 +11,5 @@ group :development, :test do
   gem "rb-inotify", "~> 0.9"
   gem "yard", "~> 0.8.5.2"
   gem "yardstick", "~> 0.9.5"
+  gem "redcarpet", "~> 2.2.2"
 end
