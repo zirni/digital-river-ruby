@@ -3,6 +3,8 @@ digital-river-ruby
 
 Wrapper for Digital River eCommerce API.
 
+https://developers.digitalriver.com/api-home
+
 ### Documentation
 We're using yard to create code documentation.
 Execute the yard command on your console and it will generate a doc directory.
