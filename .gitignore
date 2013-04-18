@@ -4,3 +4,5 @@
 /.rbx
 /.bundle
 /vendor
+.yardoc
+doc
