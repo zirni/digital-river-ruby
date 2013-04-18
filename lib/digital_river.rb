@@ -16,6 +16,17 @@ require "digital_river/config"
 
 module DigitalRiver
   class BasicError < StandardError
+    # Create an exception base on the APIs error type
+    #
+    # @param [String] id
+    # @param [String] message
+    #
+    # @return [BasicError]
+    #
+    # @api public
+    #
+    # @example
+    #   error = BasicError.build("system-error", "An internal server error occured")
     def self.build(id, message)
       case id
       when "invalid_token"
@@ -32,6 +43,15 @@ module DigitalRiver
   class ResourceNotFound < BasicError; end;
 
   class << self
+    # Holds an config instance
+    #
+    # @return [Config]
+    #
+    # @api public
+    #
+    # @example
+    #   DigitalRiver.config.url
+    #   DigitalRiver.config.oauth_url
     def config
       @config ||= Config.new
     end
