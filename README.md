@@ -41,7 +41,7 @@ yard && open doc/index.html
 
 Consider that yard will output some warnings about mixins it can't document.
 
-=== YARD Coverage
+### YARD Coverage
 
 See a documentation coverage.
 
