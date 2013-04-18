@@ -3,7 +3,7 @@ module DigitalRiver
   # Using the session object is the common and preferable way to work.
   #
   # @example
-  #   session = Sessio.build(token)
+  #   session = Session.build(token)
   #   session.checkout_resource #=> Response object
   class Session
     def self.build(token, requester = nil)
