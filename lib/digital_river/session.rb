@@ -71,11 +71,25 @@ module DigitalRiver
       LineItemsResource::All.new(self, options).response!
     end
 
+    # Add a product to the shopping cart
+    #
+    # @param [Integer] id
+    #
+    # @return [Response]
+    #
+    # @api public
     def add_line_item(id)
       options = {:id => id}
       LineItemsResource::Add.new(self, options).response
     end
 
+    # Add a product to the shopping cart and raises an exception when an API error occurs
+    #
+    # @param [Integer] id
+    #
+    # @return [Response]
+    #
+    # @api public
     def add_line_item!(id)
       options = {:id => id}
       LineItemsResource::Add.new(self, options).response!
