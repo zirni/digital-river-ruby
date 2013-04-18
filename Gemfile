@@ -9,4 +9,5 @@ group :development, :test do
   gem "guard-bundler", "1.0.0"
   gem "guard-rspec", "1.2.1"
   gem "rb-inotify", "~> 0.9"
+  gem "yard", "~> 0.8.5.2"
 end
