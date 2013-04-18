@@ -25,11 +25,11 @@ module DigitalRiver
       Token.build(response.body)
     end
 
+    private
+
     def url
       File.join(DigitalRiver.config.oauth_url)
     end
-
-    private
 
     def headers
       {"Accept" => "application/json",
