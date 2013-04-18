@@ -16,6 +16,8 @@ module DigitalRiver
     class RefreshToken
       include Concord.new(:client_id, :atoken)
 
+      # Refreshes token, so the ttl live will be increased
+      #
       # @return [Auth::Token]
       #
       # @api public
@@ -29,15 +31,30 @@ module DigitalRiver
 
       private
 
+      # Returns the refresh token specific url
+      #
+      # @return [String]
+      #
+      # @api private
       def url
         File.join(DigitalRiver.config.oauth_url)
       end
 
+      # Returns a http header
+      #
+      # @return [Hash]
+      #
+      # @api private
       def headers
         {"Accept" => "application/json",
          "Content-Type" => "application/x-www-form-urlencoded" }
       end
 
+      # Returns the http payload
+      #
+      # @return [Hash]
+      #
+      # @api private
       def body
         {:refresh_token => atoken.refresh_token,
          :grant_type => "refresh_token",
