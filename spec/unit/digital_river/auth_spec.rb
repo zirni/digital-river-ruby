@@ -39,7 +39,7 @@ module DigitalRiver
       its(:scope) { should eq("scope") }
 
       it "retrieves a new access token" do
-        subject.should be_an_instance_of(Token)
+        subject.should be_an_instance_of(Auth::Token)
       end
     end
   end
