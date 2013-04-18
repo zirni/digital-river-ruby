@@ -15,6 +15,7 @@ module DigitalRiver
       def retrieve_response
         session.get(url)
       end
+      private :retrieve_response
 
       # Retrieve reponse
       #

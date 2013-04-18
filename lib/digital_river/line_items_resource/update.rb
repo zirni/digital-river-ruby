@@ -5,6 +5,8 @@ module DigitalRiver
       include Resource::Response
       include Concord.new(:session, :options)
 
+      private
+
       def retrieve_response
         session.post(url)
       end
