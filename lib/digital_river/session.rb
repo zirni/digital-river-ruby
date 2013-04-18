@@ -47,7 +47,7 @@ module DigitalRiver
       CheckoutResource.build(self).response
     end
 
-    def checkout_resource
+    def checkout_resource!
       CheckoutResource.build(self).response!
     end
 
