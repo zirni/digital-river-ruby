@@ -5,22 +5,22 @@ module DigitalRiver
     # whenever you want before or after the access token expired.
     #
     # https://developers.digitalriver.com/resourcemethod/post-oauth20token-refresh-public
-    #
-    # @param [String] client_id
-    #
-    # @param [Auth::Token] atoken
-    #
-    # @example
-    #   refresh_token = RefreshToken.new("123abc", token)
-    #   refresh_token.token #=> returns a new token object you can work with
     class RefreshToken
       include Concord.new(:client_id, :atoken)
 
       # Refreshes token, so the ttl live will be increased
       #
+      # @param [String] client_id
+      #
+      # @param [Auth::Token] token
+      #
       # @return [Auth::Token]
       #
       # @api public
+      #
+      # @example
+      #   refresh = RefreshToken.new("123abc", token)
+      #   refresh.token
       def token
         response = Request.post(url,
                                 :headers => headers,

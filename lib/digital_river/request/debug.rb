@@ -1,6 +1,16 @@
 module DigitalRiver
   class Request
     module Debug
+      # Prints debug information about request/response
+      #
+      # @return [Response]
+      #
+      # @api public
+      #
+      # @example
+      #   Request::Raw.class_eval do
+      #     include Debug
+      #   end
       def run
         method = options.fetch(:method, "no method given").upcase
         puts "--- REQUEST: #{method} #{url} ---"

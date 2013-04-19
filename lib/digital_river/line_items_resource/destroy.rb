@@ -19,10 +19,20 @@ module DigitalRiver
 
       private
 
+      # Create a delete request
+      #
+      # @return [Response]
+      #
+      # @api private
       def retrieve_response
         session.delete(url)
       end
 
+      # Returns resource url
+      #
+      # @return [String]
+      #
+      # @api private
       def url
         id = options[:id]
         u = File.join(DigitalRiver.config.url, "shoppers/me/carts/active/line-items")

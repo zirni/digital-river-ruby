@@ -14,6 +14,11 @@ module DigitalRiver
 
       private
 
+      # Returns resource url
+      #
+      # @return [String]
+      #
+      # @api private
       def url
         File.join(DigitalRiver.config.url, "shoppers/me/carts/active/line-items")
       end
