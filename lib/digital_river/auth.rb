@@ -5,6 +5,10 @@ module DigitalRiver
   #
   # https://developers.digitalriver.com/apis/list/674/apisuite/oauth-api
   #
+  # Get information about the different grant types the oauth protocol supports
+  #
+  # http://aaronparecki.com/articles/2012/07/29/1/oauth2-simplified#other-app-types
+  #
   # @example
   #   auth = Auth.new("abc123")
   #   token = auth.token
