@@ -14,3 +14,7 @@ require 'yardstick/rake/verify'
 Yardstick::Rake::Verify.new do |verify|
   verify.threshold = 100
 end
+
+task :yardstick do
+  puts `yardstick "lib/**/*.rb"`
+end
