@@ -16,10 +16,20 @@ module DigitalRiver
 
       private
 
+      # Create a delete request
+      #
+      # @return [Response]
+      #
+      # @api private
       def retrieve_response
         session.post(url)
       end
 
+      # Returns resource url
+      #
+      # @return [String]
+      #
+      # @api private
       def url
         id = options[:id]
         quantity = options[:quantity]

@@ -2,6 +2,20 @@ module DigitalRiver
   class Response
     include Concord.new(:body, :status, :headers)
 
+    # Build a response object based on the content-type or errors
+    #
+    # @param [String] body
+    #
+    # @param [Integer] status
+    #
+    # @param [Hash] headers
+    #
+    # @return [Response]
+    #
+    # @api public
+    #
+    # @example
+    #   Response.build("payload", 200, {})
     def self.build(body, status, headers)
       response = if headers["Content-Type"].to_s.include?("application/json")
         Json.build(body, status, headers)
@@ -18,6 +32,15 @@ module DigitalRiver
       response
     end
 
+    # Errors indicator
+    #
+    # @return [Boolean]
+    #
+    # @api public
+    #
+    # @example
+    #   response = Response.build("payload", 200, {})
+    #   response.errors?
     def errors?
       false
     end

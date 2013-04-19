@@ -15,6 +15,16 @@ module DigitalRiver
   #   response.headers["location"] #=> checkout url
   #   response.status #=> 302
   class CheckoutResource
+    # Returns a new instance initialized with a session
+    #
+    # @param [Session] session
+    #
+    # @return [CheckoutResource]
+    #
+    # @api public
+    #
+    # @example
+    #   checkout = CheckoutResource.build(session)
     def self.build(session)
       new(session)
     end
@@ -24,8 +34,7 @@ module DigitalRiver
 
     private
 
-    # Specify how to request the resource.
-    # It needs/returns XML instead of json
+    # Specify how to request the resource. It needs/returns XML instead of json
     #
     # @return [DigitalRiver::Response]
     #
@@ -36,6 +45,8 @@ module DigitalRiver
       r.get(url)
     end
 
+    # Returns the resource url
+    #
     # @return [String]
     #
     # @api private

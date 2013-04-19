@@ -15,17 +15,25 @@ module DigitalRiver
 
       private
 
+      # Send a post request
+      #
+      # @return [Response]
+      #
+      # @api private
       def retrieve_response
         session.post(url, :body => body)
       end
 
+      # Returns a resource url
+      #
+      # @return [String]
+      #
+      # @api private
       def url
         File.join(DigitalRiver.config.url, "shoppers/me/carts/active/line-items")
       end
 
-      # Send product id in the http payload.
-      # With this payload structure, it would be possible to add
-      # more than one product at once
+      # Send product id in the http payload
       #
       # @return [Hash]
       #

@@ -17,17 +17,41 @@ module DigitalRiver
         new(body["errors"], status, headers)
       end
 
+      # Errors indicator
+      #
+      # @return [Boolean]
+      #
       # @api public
+      #
+      # @example
+      #   response = Error.build("payload", 200, {})
+      #   response.errors?
       def errors?
         true
       end
 
+      # Returns error messages
+      #
+      # @return [Hash]
+      #
       # @api public
+      #
+      # @example
+      #   error = Error.build("payload", 200, {})
+      #   error.error_messages
       def error_messages
         body["error"]
       end
 
+      # Converts the error to an exception
+      #
+      # @return [BasicError]
+      #
       # @api public
+      #
+      # @example
+      #   error = Error.build("payload", 200, {})
+      #   error.to_exception
       def to_exception
         error = body["error"]
         error = error.first if error.is_a?(Array)
