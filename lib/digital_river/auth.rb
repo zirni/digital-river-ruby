@@ -6,11 +6,11 @@ module DigitalRiver
   # https://developers.digitalriver.com/apis/list/674/apisuite/oauth-api
   #
   # @example
-  #   auth = Auth.new("abc123", :password)
+  #   auth = Auth.new("abc123")
   #   token = auth.token
   #   token.access_token #=> long string :)
   class Auth
-    include Concord.new(:client_id, :grant_type)
+    include Concord.new(:client_id)
 
     # It asks the API for a new access token
     #
@@ -55,7 +55,7 @@ module DigitalRiver
     #
     # @api private
     def body
-      {:client_id => client_id, :grant_type => grant_type}
+      {:client_id => client_id, :grant_type => :password}
     end
   end
 end

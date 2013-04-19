@@ -3,7 +3,7 @@ require "spec_helper"
 module DigitalRiver
   describe Auth do
     let(:object)     { described_class.new(*arguments) }
-    let(:arguments)  { [client_id, grant_type] }
+    let(:arguments)  { [client_id] }
     let(:client_id)  { "client_id" }
     let(:grant_type) { "password" }
 
