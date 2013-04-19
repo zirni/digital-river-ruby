@@ -12,4 +12,5 @@ group :development, :test do
   gem "yard", "~> 0.8.5.2"
   gem "yardstick", "~> 0.9.5"
   gem "redcarpet", "~> 2.2.2"
+  gem "simplecov", "~> 0.7.1", :require => false
 end
