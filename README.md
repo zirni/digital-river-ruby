@@ -28,6 +28,8 @@ bundle exec guard
 Examples
 --------
 
+See spec/integration/spike_spec.rb
+
 ```ruby
 # Auth object to retrieve an access token
 auth = DigitalRiver::Auth.new("your client id")
@@ -75,8 +77,6 @@ r = session.delete_line_item(line_item_id)
 r = session.checkout_resource
 puts r.headers["Location"] # visit this location with your browser
 ```
-
-See spec/integration/spike_spec.rb
 
 Documentation
 -------------
