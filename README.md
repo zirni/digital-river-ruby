@@ -29,8 +29,8 @@ Examples
 --------
 
 ```ruby
-# always pass password as grant type. This will be obsolete soon
-auth = DigitalRiver::Auth.new("your client id", :password)
+# Auth object to retrieve an access token
+auth = DigitalRiver::Auth.new("your client id")
 
 # Grab your token object
 token = auth.token
