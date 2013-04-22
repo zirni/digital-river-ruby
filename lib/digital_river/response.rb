@@ -25,7 +25,7 @@ module DigitalRiver
         new(body, status, headers)
       end
 
-      if response.body && response.body["errors"]
+      if response.body && Error.is_error?(response.body, response.status, response.headers)
         response = Error.build(response.body, response.status, response.headers)
       end
 

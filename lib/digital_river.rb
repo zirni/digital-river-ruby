@@ -33,6 +33,8 @@ module DigitalRiver
         InvalidTokenError
       when "resource-not-found"
         ResourceNotFound
+      when "invalid_client"
+        InvalidClient
       else
         BasicError
       end.new(message)
@@ -40,6 +42,7 @@ module DigitalRiver
   end
 
   class InvalidTokenError < BasicError; end;
+  class InvalidClient < BasicError; end;
   class ResourceNotFound < BasicError; end;
 
   class << self
