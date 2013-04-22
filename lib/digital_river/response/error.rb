@@ -23,6 +23,14 @@ module DigitalRiver
         end
       end
 
+      class FaultStruct
+        def self.transform(error)
+          {"description" => error.scan(/<faultstring>(.*)<\/faultstring>/).flatten.join,
+           "code"        => error.scan(/<errorcode>(.*)<\/errorcode>/).flatten.join,
+           "uri"         => ""}
+        end
+      end
+
       # Creates an Error instance
       #
       # @return [Error]
@@ -35,7 +43,9 @@ module DigitalRiver
       #   error.error_messages #=> system-error
       #   raise error.to_exception
       def self.build(body, status, headers)
-        error = if body["error"].is_a?(String)
+        error = if body.is_a?(String) && body.start_with?("<fault>")
+          FaultStruct.transform(body)
+        elsif body["error"].is_a?(String)
           NoneNestedStruct.transform(body)
         elsif body["errors"] || body["error"]
           NestedStruct.transform(body)
