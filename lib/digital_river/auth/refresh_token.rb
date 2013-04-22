@@ -26,7 +26,11 @@ module DigitalRiver
                                 :headers => headers,
                                 :body => body.to_param)
 
-        Token.build(response.body)
+        if response.errors?
+          raise response.to_exception
+        else
+          Token.build(response.body)
+        end
       end
 
       private
