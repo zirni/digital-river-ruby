@@ -4,7 +4,7 @@ Gem::Specification.new do |gem|
   gem.authors     = [ 'Matthias Zirnstein' ]
   gem.email       = [ 'matthias.zirnstein@googlemail.com' ]
   gem.description = 'Ruby wrapper for the Digital River shopper API'
-  gem.summary     = gem.description
+  gem.summary     = "Ruby Digital River wrapper"
   gem.homepage    = 'https://github.com/jabz/digital-river-ruby'
 
   gem.require_paths    = [ 'lib' ]
