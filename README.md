@@ -9,6 +9,12 @@ We're testing against the real API. Please keep in mind,
 that the client_id can be deactivated in the future. Don't
 wonder when test will unexpectly fail. 
 
+Sponsors
+---------
+
+The development has been proudly sponsored by the friends
+of https://www.sennheiser.com
+
 Installation
 ------------
 
