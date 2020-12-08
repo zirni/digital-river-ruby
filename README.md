@@ -5,10 +5,6 @@ Wrapper for Digital River eCommerce API.
 
 https://developers.digitalriver.com/api-home
 
-We're testing against the real API. Please keep in mind,
-that the client_id can be deactivated in the future. Don't
-wonder when test will unexpectly fail. 
-
 Sponsors
 ---------
 
