@@ -13,7 +13,7 @@ Installation
 ------------
 
 ```ruby
-gem "digital-river-ruby", :git => "git@github.com:jabz/digital-river-ruby.git", :branch => :master
+gem "digital-river-ruby", :git => "git@github.com:zirni/digital-river-ruby.git", :branch => :master
 ```
 
 Development
