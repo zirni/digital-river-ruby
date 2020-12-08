@@ -2,10 +2,10 @@ Gem::Specification.new do |gem|
   gem.name        = 'digital-river-ruby'
   gem.version     = '0.0.1'
   gem.authors     = [ 'Matthias Zirnstein' ]
-  gem.email       = [ 'matthias.zirnstein@googlemail.com' ]
+  gem.email       = [ 'matthias.zirnstein@gmail.com' ]
   gem.description = 'Ruby wrapper for the Digital River shopper API'
   gem.summary     = "Ruby Digital River wrapper"
-  gem.homepage    = 'https://github.com/jabz/digital-river-ruby'
+  gem.homepage    = 'https://github.com/sennheiserelectronic/digital-river-ruby'
 
   gem.require_paths    = [ 'lib' ]
   gem.files            = `git ls-files`.split("\n")
